@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Title</title>
+        <link rel="icon" type="image/png" href="favicon.png">
+        <title>Aplikasi</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -16,15 +17,63 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
         />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
     <body>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+            .wrapper {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            .main-content {
+                flex: 1;
+            }
+        </style>
+    
+        @yield('modal')
         <header>
-            @extends('navbar')
+            @yield('navbar')
         </header>
-        <main></main>
-        <footer>
-            <!-- place footer here -->
+
+        <main class="wrapper">
+            @yield('content') 
+        </main>
+        <footer class="bg-dark text-light text-center py-3">
+            <div class="container text-center text-md-start">
+                <div class="row">
+                    <!-- Column 1 -->
+                    <div class="col-md-4">
+                        <h5>Aplikasi</h5>
+                        <p>Building the future, one line of code at a time.</p>
+                    </div>
+                    <!-- Column 2 -->
+                    <div class="col-md-4">
+                        <h5>Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-light text-decoration-none">Home</a></li>
+                            <li><a href="#" class="text-light text-decoration-none">About</a></li>
+                            <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
+                        </ul>
+                    </div>
+                    <!-- Column 3 -->
+                    <div class="col-md-4">
+                        <h5>Follow Us</h5>
+                        <a href="#" class="text-light me-2"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="text-light me-2"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="text-light"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+                <!-- Bottom text -->
+                <div class="text-center mt-3">
+                    <p class="mb-0">&copy; 2025 Aplikasi. All rights reserved.</p>
+                </div>
+            </div>
         </footer>
         <!-- Bootstrap JavaScript Libraries -->
         <script

@@ -8,6 +8,6 @@ use Illuminate\Http\Request;
 class LoginController extends Controller
 {
     public function LoginScreen(){
-        return view('welcome');
+        return view('body.pelanggan');
     }
 }
