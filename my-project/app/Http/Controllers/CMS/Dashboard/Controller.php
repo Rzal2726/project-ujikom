@@ -12,15 +12,15 @@ class Controller extends controllers
         return view('body.home')->with('isHome',true);
     }
     public function UserScreen(){
-        return view('body.home')->with('isUser',true);
+        return view('body.user')->with('isUser',true);
     }
     public function ProdukScreen(){
-        return view('body.home')->with('isProduk',true);
+        return view('body.produk')->with('isProduk',true);
     }
     public function PelangganScreen(){
-        return view('body.home')->with('isPelanggan',true);
+        return view('body.pelanggan')->with('isPelanggan',true);
     }
     public function TransaksiScreen(){
-        return view('body.home')->with('isTransaksi',true);
+        return view('body.transaksi')->with('isTransaksi',true);
     }
 }

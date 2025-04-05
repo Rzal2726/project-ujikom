@@ -97,26 +97,147 @@
 
 @endsection
 @section('content')
-<!-- Content -->
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Data Pelanggan</h4>
-                <div class="d-flex">
-                    <div class="input-group" style="max-width: 250px;">
-                        <input type="text" class="form-control" placeholder="Cari">
-                        <button class="btn btn-success"><i class="fa fa-search"></i></button>
-                    </div>
-                    <button class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                        <i class="fa fa-plus"></i>
-                    </button>
+<style>
+    /* Glass Container */
+    .glass-table-container {
+        padding: 2rem;
+        background: #f2f4f7;
+        border-radius: 16px;
+        overflow-x: auto;
+    }
+    
+    /* Responsive Table */
+    .glass-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+        min-width: 600px;
+    }
+    
+    /* Table Head */
+    .glass-table thead th {
+        color: #555;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-align: center;
+        padding-bottom: 1rem;
+        white-space: nowrap;
+    }
+    
+    /* Table Body */
+    .glass-table tbody tr {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .glass-table tbody tr:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Table Cell */
+    .glass-table td {
+        padding: 1rem 1.5rem;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+        white-space: nowrap;
+    }
+    
+    /* Action Button Style */
+    .action-btn {
+        border: none;
+        padding: 8px 12px;
+        margin: 0 2px;
+        border-radius: 10px;
+        color: white;
+        font-size: 14px;
+        transition: background 0.3s;
+    }
+    
+    .btn-edit {
+        background: #4caf50;
+    }
+    .btn-edit:hover {
+        background: #45a049;
+    }
+    
+    .btn-delete {
+        background: #e74c3c;
+    }
+    .btn-delete:hover {
+        background: #c0392b;
+    }
+    
+    
+    /* Input Field Glass */
+    .input-group input {
+        background: rgba(255, 255, 255, 0.6);
+        border: none;
+        color: #333;
+    }
+    
+    /* Pagination Glass */
+    #pagination button {
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .glass-table-container {
+            padding: 1rem;
+        }
+    
+        .glass-table {
+            min-width: unset;
+            font-size: 14px;
+        }
+    
+        .glass-table td, .glass-table th {
+            padding: 0.5rem 0.8rem;
+        }
+    
+        .action-btn {
+            padding: 6px 8px;
+            font-size: 12px;
+        }
+    
+        #pagination button {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+    }
+    </style>
+    
+<div class="container my-4">
+    <div class="card shadow border-0 my-4">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center p-4">
+            <div class="d-flex align-items-center">
+                <div class="col-12 col-md-8 mb-2 mb-md-0 text-md-start text-center">
+                    <h4 class="mb-0 text-nowrap">Data Pelanggan</h4>
                 </div>
             </div>
-
+            <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center gap-2">
+                <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
+                    <input type="text" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                    <button class="btn btn-success rounded-end-pill"><i class="fa fa-search"></i></button>
+                </div>
+                
+                <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
             <!-- Table -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover">
+            <div class="glass-table-container">
+                <table class="glass-table">
                     <thead class="table-primary">
                         <tr>
                             <th class="w-10">NO</th>
@@ -129,18 +250,18 @@
                     <tbody id="table">
                     </tbody>
                 </table>
-                <div class="container d-flex flex-column justify-content-center align-items-center m-1">
-                    <div class="container d-flex flex-row justify-content-center align-items-center m-2">
-                      <button type="button" class="btn rounded btn-primary mx-2" id="first">First</button>
-                      <button type="button" class="btn rounded btn-primary mx-2" id="prev"><</button>
-                      <div class="" id="pagination">
-                      </div>
-                      <button type="button" class="btn rounded btn-primary mx-2" id="next">></button>
-                      <button type="button" class="btn rounded btn-primary mx-2" id="last">Last</button>
-                    </div>
-                    <div id="count"></div>
-                  </div>
             </div>
+            <div class="container d-flex flex-column justify-content-center align-items-center m-1">
+                <div class="container d-flex flex-row justify-content-center align-items-center m-2">
+                  <button type="button" class="btn rounded btn-primary mx-2" id="first">First</button>
+                  <button type="button" class="btn rounded btn-primary mx-2" id="prev"><</button>
+                  <div class="" id="pagination">
+                  </div>
+                  <button type="button" class="btn rounded btn-primary mx-2" id="next">></button>
+                  <button type="button" class="btn rounded btn-primary mx-2" id="last">Last</button>
+                </div>
+                <div id="count"></div>
+              </div>
         </div>
     </div>
 </div>

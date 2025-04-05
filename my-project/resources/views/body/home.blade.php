@@ -277,12 +277,119 @@
                     <i class="fa fa-user fa-lg me-2 text-warning"></i>
                     <h5 class="mb-0 fw-bold">User</h5>
                 </div>
-                <a class="btn btn-primary btn-sm shadow-sm" href="#" role="button">See More</a>
+                <a class="btn btn-primary btn-sm shadow-sm" href="#" role="button">See More <i class="fa fa-chevron-right"></i></a>
             </div>
-            <div class="table-responsive text-nowrap p-3">
-                <table class="table table-striped table-hover">
-                    <thead id="cuti-head"></thead>       
-                    <tbody id="cuti-body"></tbody>
+                        <!-- Table -->
+                        <style>
+                            .glass-table-container {
+                                padding: 2rem;
+                                background: #f2f4f7;
+                                border-radius: 16px;
+                            }
+                        
+                            .glass-table {
+                                width: 100%;
+                                border-collapse: separate;
+                                border-spacing: 0 15px;
+                            }
+                        
+                            .glass-table thead th {
+                                color: #555;
+                                text-transform: uppercase;
+                                font-weight: 600;
+                                text-align: center;
+                                padding-bottom: 1rem;
+                            }
+                        
+                            .glass-table tbody tr {
+                                background: rgba(255, 255, 255, 0.5);
+                                backdrop-filter: blur(8px);
+                                -webkit-backdrop-filter: blur(8px);
+                                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+                                border-radius: 12px;
+                                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                            }
+                        
+                            .glass-table tbody tr:hover {
+                                transform: translateY(-3px);
+                                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+                            }
+                        
+                            .glass-table td {
+                                padding: 1rem 1.5rem;
+                                text-align: center;
+                                font-weight: 500;
+                                color: #333;
+                            }
+                        
+                            .action-btn {
+                                border: none;
+                                padding: 8px 12px;
+                                margin: 0 2px;
+                                border-radius: 10px;
+                                color: white;
+                                font-size: 14px;
+                                transition: background 0.3s;
+                            }
+                        
+                            .btn-edit {
+                                background: #4caf50;
+                            }
+                        
+                            .btn-edit:hover {
+                                background: #45a049;
+                            }
+                        
+                            .btn-delete {
+                                background: #e74c3c;
+                            }
+                        
+                            .btn-delete:hover {
+                                background: #c0392b;
+                            }
+                        </style>
+                        
+                        <div class="glass-table-container">
+                            <table class="glass-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Rizal</td>
+                                        <td>Gadobangkong</td>
+                                        <td>083116549766</td>
+                                        <td>
+                                            <button class="action-btn btn-edit" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                                Edit
+                                            </button>
+                                            <button class="action-btn btn-delete" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>John Doe</td>
+                                        <td>Gadobangkong</td>
+                                        <td>083116549766</td>
+                                        <td>
+                                            <button class="action-btn btn-edit" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                                Edit
+                                            </button>
+                                            <button class="action-btn btn-delete" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                                Delete
+                                            </button>
+                                        </td>
+                    </tr>
+                    </tbody>
                 </table>
             </div>
         </div>

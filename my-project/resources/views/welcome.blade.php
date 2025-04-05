@@ -27,12 +27,17 @@
             html, body {
                 height: 100%;
                 margin: 0;
+                background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* nice dark gradient */
+                background-attachment: fixed;
+                background-size: cover;
             }
+        
             .wrapper {
                 display: flex;
                 flex-direction: column;
                 min-height: 100vh;
             }
+        
             .main-content {
                 flex: 1;
             }
@@ -51,29 +56,21 @@
                 <div class="row">
                     <!-- Column 1 -->
                     <div class="col-md-4">
-                        <h5>Aplikasi</h5>
+                        <h5>RL Products Manager</h5>
                         <p>Building the future, one line of code at a time.</p>
                     </div>
                     <!-- Column 2 -->
                     <div class="col-md-4">
-                        <h5>Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-light text-decoration-none">Home</a></li>
-                            <li><a href="#" class="text-light text-decoration-none">About</a></li>
-                            <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
-                        </ul>
                     </div>
                     <!-- Column 3 -->
                     <div class="col-md-4">
                         <h5>Follow Us</h5>
-                        <a href="#" class="text-light me-2"><i class="fa fa-facebook"></i></a>
-                        <a href="#" class="text-light me-2"><i class="fa fa-twitter"></i></a>
-                        <a href="#" class="text-light"><i class="fa fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/rzplayem2726/" class="text-light"><i class="fa fa-instagram"></i></a>
                     </div>
                 </div>
                 <!-- Bottom text -->
                 <div class="text-center mt-3">
-                    <p class="mb-0">&copy; 2025 Aplikasi. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2025 RL Products Manager. All rights reserved.</p>
                 </div>
             </div>
         </footer>

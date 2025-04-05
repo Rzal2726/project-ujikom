@@ -139,14 +139,20 @@ if(!localStorage.getItem("token")){
         <td>${data.no_telp}</td>
         <td>${data.alamat}</td>
             <td>
-            <div class="dropdown ms-3">
-                <button class="btn btn-outline-primary dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
-                    <i class="fa fa-cog"></i> Aksi
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#" onclick="edit(${data.id})" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="fa fa-pencil"></i> Edit</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="del(${data.id})"><i class="fa fa-trash"></i> Hapus</a></li>
-                </ul>
+            <div class="d-flex gap-2">
+              <button 
+                class="btn text-nowrap btn-primary edit-btn" 
+                data-id="${data.id}" 
+                data-bs-toggle="modal" 
+                data-bs-target="#modalEdit">
+                <i class="fa fa-pencil"></i> Edit
+              </button>
+
+              <button 
+                class="btn text-nowrap btn-danger delete-btn" 
+                data-id="${data.id}">
+                <i class="fa fa-trash"></i> Hapus
+              </button>
             </div>
             </td>
         </tr>
