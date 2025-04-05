@@ -22,17 +22,21 @@
             <form>
                 <div class="modal-body px-4">
                     <div class="mb-3">
+                        <label for="inputId" class="form-label fw-semibold">ID</label>
+                        <input type="text" class="form-control rounded" id="inputId" name="id" placeholder="Enter ID" required autofocus>
+                    </div>
+                    <div class="mb-3">
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
-                        <input type="text" class="form-control rounded" id="add-nama" name="name" placeholder="Enter Name" required autofocus>
+                        <input type="text" class="form-control rounded" id="inputName" name="name" placeholder="Enter Name" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Alamat*</label>
-                        <input type="text" class="form-control rounded" id="add-alamat" name="alamat" placeholder="Enter Address" required>
+                        <input type="text" class="form-control rounded" id="inputAlamat" name="alamat" placeholder="Enter Address" required>
                     </div>     
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
                         <div class="input-group">
-                            <input type="text" class="form-control rounded" id="add-no" name="alamat" placeholder="Enter Address" required>
+                            <input type="text" class="form-control rounded" id="inputAlamat" name="alamat" placeholder="Enter Address" required>
                         </div>
                     </div>     
                 </div>
@@ -40,7 +44,7 @@
                 <!-- Modal Footer -->
                 <div class="modal-footer border-0 px-4 pb-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="add()" data-bs-dismiss="modal">Save</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Save</button>
                 </div>
             </form>
 
@@ -66,20 +70,20 @@
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label for="inputId" class="form-label fw-semibold">ID</label>
-                        <input type="text" class="form-control rounded" id="edit-id" name="id" placeholder="Enter ID" required readonly>
+                        <input type="text" class="form-control rounded" id="inputId" name="id" placeholder="Enter ID" required autofocus>
                     </div>
                     <div class="mb-3">
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
-                        <input type="text" class="form-control rounded" id="edit-nama" name="name" placeholder="Enter Name" required autofocus> 
+                        <input type="text" class="form-control rounded" id="inputName" name="name" placeholder="Enter Name" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Alamat*</label>
-                        <input type="text" class="form-control rounded" id="edit-alamat" name="alamat" placeholder="Enter Address" required>
+                        <input type="text" class="form-control rounded" id="inputAlamat" name="alamat" placeholder="Enter Address" required>
                     </div>     
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
                         <div class="input-group">
-                            <input type="text" class="form-control rounded" id="edit-no" name="alamat" placeholder="Enter Address" required>
+                            <input type="text" class="form-control rounded" id="inputAlamat" name="alamat" placeholder="Enter Address" required>
                         </div>
                     </div>     
                 </div>
@@ -95,6 +99,9 @@
     </div>
 </div>
 
+    
+    
+    
 @endsection
 @section('content')
 <!-- Content -->
@@ -102,7 +109,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Data Pelanggan</h4>
+                <h4 class="mb-0">Tabel</h4>
                 <div class="d-flex">
                     <div class="input-group" style="max-width: 250px;">
                         <input type="text" class="form-control" placeholder="Cari">
@@ -119,38 +126,53 @@
                 <table class="table table-bordered table-striped table-hover">
                     <thead class="table-primary">
                         <tr>
-                            <th class="w-10">NO</th>
-                            <th class="w-25">NAMA</th>
-                            <th class="w-25">TELEPON</th>
-                            <th class="w-25">ALAMAT</th>
-                            <th class="w-15">AKSI</th>
+                            <th>ID</th>
+                            <th>NAMA</th>
+                            <th>ALAMAT</th>
+                            <th>TELEPON</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
-                    <tbody id="table">
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Rizal</td>
+                            <td>Gadobangkong</td>
+                            <td>083116549766</td>
+                            <td>
+                                <button class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                    <i class="fa fa-edit"> Edit</i>
+                                </button>
+                                <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                    <i class="fa fa-trash"> Delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>John Doe</td>
+                            <td>Gadobangkong</td>
+                            <td>083116549766</td>
+                            <td>
+                            <button class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                <i class="fa fa-edit"> Edit</i>
+                            </button>
+                            <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                <i class="fa fa-trash"> Delete</i>
+                            </button>
+                        </td>
+                        </tr>
                     </tbody>
                 </table>
-                <div class="container d-flex flex-column justify-content-center align-items-center m-1">
-                    <div class="container d-flex flex-row justify-content-center align-items-center m-2">
-                      <button type="button" class="btn rounded btn-primary mx-2" id="first">First</button>
-                      <button type="button" class="btn rounded btn-primary mx-2" id="prev"><</button>
-                      <div class="" id="pagination">
-                      </div>
-                      <button type="button" class="btn rounded btn-primary mx-2" id="next">></button>
-                      <button type="button" class="btn rounded btn-primary mx-2" id="last">Last</button>
-                    </div>
-                    <div id="count"></div>
-                  </div>
             </div>
         </div>
     </div>
 </div>
-
-@endsection
-@section('script')
+<!-- Optional: Place to the bottom of scripts -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
-    });
+    const myModal = new bootstrap.Modal(
+        document.getElementById("modalId"),
+        options,
+    );
 </script>
-<script src="{{asset("/assets/js/pelanggan.js")}}" defer></script>
 @endsection
