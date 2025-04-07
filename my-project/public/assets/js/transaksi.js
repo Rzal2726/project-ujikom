@@ -386,6 +386,7 @@ function toggleButton(id) {
 }
   
 async function saveTransaction() {
+  
   JsLoadingOverlay.show({
     "spinnerIcon": "ball-spin"
   });
@@ -408,11 +409,11 @@ async function saveTransaction() {
 
       const result = await response.json();
 
-      toastr.success('Success update products stok')
+      toastr.success('Success update transaction data')
       updateTable()
 
   } catch (error) {
-    toastr.error('Failed to update stock!', error)
+    toastr.error('Failed to update transaction data!', error)
   } finally {
     JsLoadingOverlay.hide()
   }
@@ -447,8 +448,20 @@ async function saveCart() {
 }
 
 async function sendTransaction(){
-  await saveCart()
+  if(document.getElementById('total-harga').value == ""){
+    toastr.error("Kolom harga tidak boleh kosong")
+    return false
+  }
+  if(document.getElementById('add-daftar-produk').value == ""){
+    toastr.error("Kolom daftar produk tidak boleh kosong")
+    return false
+  }
+  if(document.getElementById('form-tanggal').value == ""){
+    toastr.error("Kolom tanggal tidak boleh kosong")
+    return false
+  }
   await saveTransaction()
+  await saveCart()
 }
 
 function cartReset(){

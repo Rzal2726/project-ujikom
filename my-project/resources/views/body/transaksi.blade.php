@@ -277,7 +277,7 @@
         <div class="card-header bg-light p-4">
             <div class="row align-items-center g-3">
                 <div class="col-12 col-md-8 text-center text-md-start">
-                    <h4 class="mb-0 text-nowrap">Data Transaksi</h4>
+                    <h4 class="mb-0 text-nowrap">Riwayat Transaksi</h4>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
