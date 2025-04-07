@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\API\User;
+namespace App\Http\Controllers\API\Produk;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Barang;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-use function PHPUnit\Framework\isEmpty;
-
-class UserController extends Controller
+class ProdukController extends Controller
 {
     public function getData(){
-        $data = User::paginate(10);
+        $data = Barang::paginate(10);
         return response()->json([
             'message' => 'berhasil mendapatkan data',
             'data' => $data
@@ -20,10 +17,12 @@ class UserController extends Controller
     }
 
     public function searchData(Request $request){
-        $data = User::orderBy('id','asc');
+        $data = Barang::orderBy('id','asc');
         if($request->has('search')){
-            $data->where('name','like','%'.$request->search.'%')
-            ->orWhere('email','like','%'.$request->search.'%');
+            $data->where('nama_barang','like','%'.$request->search.'%')
+            ->orWhere('stok','like','%'.$request->search.'%')
+            ->orWhere('harga','like','%'.$request->search.'%')
+            ->orWhere('kategori','like','%'.$request->search.'%');
         }
         return response()->json([
             'message' => 'berhasil mendapatkan data',
@@ -32,11 +31,11 @@ class UserController extends Controller
     }
 
     public function addData(Request $request){
-        $password = Hash::make($request->password);
-        $data = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $password,
+        $data = Barang::create([
+            'nama_barang' => $request->nama_barang,
+            'stok' => $request->stok,
+            'harga' => $request->harga,
+            'kategori' => $request->kategori,
         ]);
         if(!$data){
             return response()->json([
@@ -49,21 +48,7 @@ class UserController extends Controller
     }
 
     public function showData($id){
-        $data = User::where('id','=',$id)->first();
-
-        if(!$data){
-            return response()->json([
-                'message' => 'gagal mendapatkan data',
-            ], 400);
-        }
-        return response()->json([
-            'message' => 'berhasil mendapatkan data',
-            'data' => $data
-        ], 200);
-    }
-
-    public function getProfile(){
-        $data = User::where('id','=',auth()->user->id)->first();
+        $data = Barang::where('id','=',$id)->first();
 
         if(!$data){
             return response()->json([
@@ -77,19 +62,12 @@ class UserController extends Controller
     }
 
     public function editData(Request $request, $id){
-        $data = User::where('id','=',$id);
-        $data->update([
-            'name' => $request->name,
-            'email' => $request->email,
+        $data = Barang::where('id','=',$id)->update([
+            'nama_barang' => $request->nama_barang,
+            'stok' => $request->stok,
+            'harga' => $request->harga,
+            'kategori' => $request->kategori,
         ]);
-        if($request->has('password')){
-            if(!isEmpty($request->password)){
-                $password = Hash::make($request->password);
-                $data->update([
-                    'password' => $password
-                ]);
-            }
-        }
         if(!$data){
             return response()->json([
                 'message' => 'gagal mengubah data',
@@ -101,7 +79,7 @@ class UserController extends Controller
     }
 
     public function deleteData($id){
-        $data = User::where('id','=',$id)->delete();
+        $data = Barang::where('id','=',$id)->delete();
         if(!$data){
             return response()->json([
                 'message' => 'gagal menghapus data',
@@ -110,5 +88,20 @@ class UserController extends Controller
         return response()->json([
             'message' => 'berhasil menghapus data',
         ], 200);
+    }
+
+    public function updateStok(Request $request){
+        $cart = $request->cart;
+
+        foreach ($cart as $id => $item) {
+            $produk = Barang::find($id);
+            if ($produk && $produk->stok >= $item['qty']) {
+                $produk->stok -= $item['qty'];
+                $produk->save();
+            }
+        }
+
+        return response()->json(['message' => 'Stok Updated']);
+
     }
 }

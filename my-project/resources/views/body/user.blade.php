@@ -23,17 +23,15 @@
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
-                        <input type="text" class="form-control rounded" id="add-nama" name="name" placeholder="Enter Name" required autofocus>
+                        <input type="text" class="form-control rounded" id="add-name" name="name" placeholder="Enter Name" required autofocus>
                     </div>
                     <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Alamat*</label>
-                        <input type="text" class="form-control rounded" id="add-alamat" name="alamat" placeholder="Enter Address" required>
+                        <label for="inputAlamat" class="form-label fw-semibold">Email*</label>
+                        <input type="email" class="form-control rounded" id="add-email" name="email" placeholder="Enter Email" required>
                     </div>     
                     <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control rounded" id="add-no" name="alamat" placeholder="Enter Address" required>
-                        </div>
+                        <label for="inputAlamat" class="form-label fw-semibold">Password*</label>
+                        <input type="password" class="form-control rounded" id="add-password" name="alamat" placeholder="Enter Password" required>
                     </div>     
                 </div>
 
@@ -70,24 +68,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
-                        <input type="text" class="form-control rounded" id="edit-nama" name="name" placeholder="Enter Name" required autofocus> 
+                        <input type="text" class="form-control rounded" id="edit-name" name="name" placeholder="Enter Name" required autofocus> 
                     </div>
                     <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Alamat*</label>
-                        <input type="text" class="form-control rounded" id="edit-alamat" name="alamat" placeholder="Enter Address" required>
+                        <label for="inputAlamat" class="form-label fw-semibold">Email*</label>
+                        <input type="email" class="form-control rounded" id="edit-email" name="alamat" placeholder="Enter Email" required>
                     </div>     
                     <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control rounded" id="edit-no" name="alamat" placeholder="Enter Address" required>
-                        </div>
+                        <label for="inputAlamat" class="form-label fw-semibold">Password</label>
+                        <input type="password" class="form-control rounded" id="edit-password" name="no_hp" placeholder="Enter New Password" maxlength="11" required>
+                        
                     </div>     
                 </div>
 
                 <!-- Modal Footer -->
                 <div class="modal-footer border-0 px-4 pb-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">Save</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="update()" data-bs-dismiss="modal">Save</button>
                 </div>
             </form>
 
@@ -128,8 +125,6 @@
     .glass-table tbody tr {
         background: rgba(255, 255, 255, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
@@ -174,12 +169,6 @@
         background: #c0392b;
     }
     
-    /* Card Glass Style */
-    .card {
-        backdrop-filter: blur(6px);
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-    }
     
     /* Input Field Glass */
     .input-group input {
@@ -222,35 +211,39 @@
     </style>
     
 <div class="container my-4">
-    <div class="card shadow border-0 rounded-4 p-3">
-        <div class="card-body">
-            <div class="row align-items-center mb-3">
-                <div class="col-12 col-md-8 mb-2 mb-md-0 text-md-start text-center">
+    <div class="card shadow border-0 my-4 " id="draggable-card">
+        <div class="card-header bg-light p-4">
+            <div class="row align-items-center g-3">
+                <div class="col-12 col-md-8 text-center text-md-start">
                     <h4 class="mb-0 text-nowrap">Data User</h4>
                 </div>
-                
-                <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center gap-2">
-                    <div class="input-group" style="max-width: 250px; width: 100%;">
-                        <input type="text" class="form-control" placeholder="Cari">
-                        <button class="btn btn-success"><i class="fa fa-search"></i></button>
+                <div class="col-12 col-md-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
+                        <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
+                            <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                            <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+        
+                        <button class="btn btn-primary rounded w-auto" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                            <i class="fa fa-plus"></i>
+                        </button>
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                        <i class="fa fa-plus"></i>
-                    </button>
                 </div>
             </div>
-            
-
+        </div>
+        
+        <div class="card-body">
             <!-- Table -->
             <div class="glass-table-container">
                 <table class="glass-table">
                     <thead class="table-primary">
                         <tr>
                             <th class="w-10">NO</th>
-                            <th class="w-25">NAMA</th>
-                            <th class="w-25">TELEPON</th>
-                            <th class="w-25">ALAMAT</th>
-                            <th class="w-15">AKSI</th>
+                            <th class="w-35">NAMA</th>
+                            <th class="w-35">EMAIL</th>
+                            <th class="w-20">AKSI</th>
                         </tr>
                     </thead>
                     <tbody id="table">
@@ -274,10 +267,27 @@
 
 @endsection
 @section('script')
+<!-- jQuery + jQuery UI -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+    $('#edit-no').on('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(function() {
+        $("#draggable-card").draggable({
+            handle: ".card-header", // only drag from header
+            containment: ".wrapper"
+        }).resizable({
+            minHeight: 150,
+            minWidth: 200
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
     });
 </script>
-<script src="{{asset("/assets/js/pelanggan.js")}}" defer></script>
+<script src="{{asset("/assets/js/user.js")}}" defer></script>
 @endsection

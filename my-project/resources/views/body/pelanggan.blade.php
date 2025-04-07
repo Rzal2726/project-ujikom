@@ -32,7 +32,8 @@
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
                         <div class="input-group">
-                            <input type="text" class="form-control rounded" id="add-no" name="alamat" placeholder="Enter Address" required>
+                            <span class="input-group-text border-end-0 bg-white">+62</span>
+                            <input type="text" class="form-control border-start-0" id="add-no" name="no_hp" placeholder="Enter Phone Number" maxlength="11" required>
                         </div>
                     </div>     
                 </div>
@@ -79,15 +80,17 @@
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
                         <div class="input-group">
-                            <input type="text" class="form-control rounded" id="edit-no" name="alamat" placeholder="Enter Address" required>
+                            <span class="input-group-text border-end-0 bg-white">+62</span>
+                            <input type="text" class="form-control border-start-0" id="edit-no" name="no_hp" placeholder="Enter Phone Number" maxlength="11" required>
                         </div>
+                        
                     </div>     
                 </div>
 
                 <!-- Modal Footer -->
                 <div class="modal-footer border-0 px-4 pb-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">Save</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="update()" data-bs-dismiss="modal">Save</button>
                 </div>
             </form>
 
@@ -128,8 +131,6 @@
     .glass-table tbody tr {
         background: rgba(255, 255, 255, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
@@ -216,24 +217,29 @@
     </style>
     
 <div class="container my-4">
-    <div class="card shadow border-0 my-4">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center p-4">
-            <div class="d-flex align-items-center">
-                <div class="col-12 col-md-8 mb-2 mb-md-0 text-md-start text-center">
+    <div class="card shadow border-0 my-4 " id="draggable-card">
+        <div class="card-header bg-light p-4">
+            <div class="row align-items-center g-3">
+                <div class="col-12 col-md-8 text-center text-md-start">
                     <h4 class="mb-0 text-nowrap">Data Pelanggan</h4>
                 </div>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center gap-2">
-                <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
-                    <input type="text" class="form-control rounded-start-pill border-0" placeholder="Cari">
-                    <button class="btn btn-success rounded-end-pill"><i class="fa fa-search"></i></button>
+                <div class="col-12 col-md-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
+                        <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
+                            <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                            <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+        
+                        <button class="btn btn-primary rounded w-auto" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
-                
-                <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                    <i class="fa fa-plus"></i>
-                </button>
             </div>
         </div>
+        
         <div class="card-body">
             <!-- Table -->
             <div class="glass-table-container">
@@ -268,6 +274,23 @@
 
 @endsection
 @section('script')
+<!-- jQuery + jQuery UI -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+    $('#edit-no').on('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(function() {
+        $("#draggable-card").draggable({
+            handle: ".card-header", // only drag from header
+            containment: ".wrapper"
+        }).resizable({
+            minHeight: 150,
+            minWidth: 200
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");

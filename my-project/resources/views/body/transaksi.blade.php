@@ -4,49 +4,6 @@
 @endsection
 
 @section('modal')
-    
-<!-- Tambah Modal -->
-<div class="modal fade" id="modalTambah" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
-    aria-labelledby="modalTitleId" aria-hidden="true">
-    
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-3">
-            
-            <!-- Modal Header -->
-            <div class="modal-header bg-light border-0">
-                <h5 class="modal-title fw-bold" id="modalTitleId">Tambah Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <!-- Modal Form -->
-            <form>
-                <div class="modal-body px-4">
-                    <div class="mb-3">
-                        <label for="inputName" class="form-label fw-semibold">Name*</label>
-                        <input type="text" class="form-control rounded" id="add-nama" name="name" placeholder="Enter Name" required autofocus>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Alamat*</label>
-                        <input type="text" class="form-control rounded" id="add-alamat" name="alamat" placeholder="Enter Address" required>
-                    </div>     
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control rounded" id="add-no" name="alamat" placeholder="Enter Address" required>
-                        </div>
-                    </div>     
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer border-0 px-4 pb-4">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="add()" data-bs-dismiss="modal">Save</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
 
 <!-- Edit Modal -->
 <div class="modal fade" id="modalEdit" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
@@ -57,7 +14,7 @@
             
             <!-- Modal Header -->
             <div class="modal-header bg-light border-0">
-                <h5 class="modal-title fw-bold" id="modalTitleId">Edit Data</h5>
+                <h5 class="modal-title fw-bold" id="modalTitleId">Detail Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -66,28 +23,38 @@
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label for="inputId" class="form-label fw-semibold">ID</label>
-                        <input type="text" class="form-control rounded" id="edit-id" name="id" placeholder="Enter ID" required readonly>
+                        <input type="text" class="form-control rounded" id="detail-id" name="id" placeholder="Enter ID" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="inputName" class="form-label fw-semibold">Name*</label>
-                        <input type="text" class="form-control rounded" id="edit-nama" name="name" placeholder="Enter Name" required autofocus> 
+                        <label for="inputName" class="form-label fw-semibold">Pelanggan*</label>
+                        <input type="text" class="form-control rounded" id="detail-pelanggan" name="name" placeholder="Enter Name" readonly> 
                     </div>
                     <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Alamat*</label>
-                        <input type="text" class="form-control rounded" id="edit-alamat" name="alamat" placeholder="Enter Address" required>
+                        <label for="inputAlamat" class="form-label fw-semibold">Admin*</label>
+                        <input type="text" class="form-control rounded" id="detail-admin" name="alamat" placeholder="Enter Address" readonly>
                     </div>     
                     <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">No Telp*</label>
+                        <label for="inputAlamat" class="form-label fw-semibold">Harga*</label>
                         <div class="input-group">
-                            <input type="text" class="form-control rounded" id="edit-no" name="alamat" placeholder="Enter Address" required>
+                            <span class="input-group-text border-end-0 bg-white">RP.</span>
+                            <input type="number" class="form-control border-start-0" id="detail-harga" name="no_hp" placeholder="Enter Price ( Examplpe: 5000 )" maxlength="11" required>
                         </div>
                     </div>     
+                    <div class="mb-3">
+                        <label for="inputAlamat" class="form-label fw-semibold">Tanggal*</label>
+                        <input type="text" class="form-control rounded" id="detail-tanggal" name="alamat" placeholder="Enter Address" readonly>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="" class="form-label">Daftar Produk</label>
+                        <textarea class="form-control" name="" id="detail-produk" rows="3" readonly></textarea>
+                    </div>
+                    
                 </div>
 
                 <!-- Modal Footer -->
                 <div class="modal-footer border-0 px-4 pb-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">Save</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="update()" data-bs-dismiss="modal">Save</button>
                 </div>
             </form>
 
@@ -98,6 +65,27 @@
 @endsection
 @section('content')
 <style>
+    #produk-container {
+        max-height: 480px; /* Set your desired max height */
+        overflow-y: auto;
+    }
+
+    #produk-card .glass-table {
+        min-width: 600px;   /* adjust for horizontal scroll */
+        max-height: 240px;   /* adjust for horizontal scroll */
+        table-layout: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
+    #produk-card .glass-table th,
+    #produk-card .glass-table td {
+        word-wrap: break-word;
+        white-space: nowrap;
+        padding: 0.75rem;
+    }
+
+
     /* Glass Container */
     .glass-table-container {
         padding: 2rem;
@@ -128,8 +116,6 @@
     .glass-table tbody tr {
         background: rgba(255, 255, 255, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
@@ -174,12 +160,6 @@
         background: #c0392b;
     }
     
-    /* Card Glass Style */
-    .card {
-        backdrop-filter: blur(6px);
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-    }
     
     /* Input Field Glass */
     .input-group input {
@@ -220,37 +200,111 @@
         }
     }
     </style>
-    
-<div class="container my-4">
-    <div class="card shadow border-0 rounded-4 p-3">
-        <div class="card-body">
-            <div class="row align-items-center mb-3">
-                <div class="col-12 col-md-8 mb-2 mb-md-0 text-md-start text-center">
-                    <h4 class="mb-0 text-nowrap">Data Transaksi</h4>
-                </div>
-                
-                <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center gap-2">
-                    <div class="input-group" style="max-width: 250px; width: 100%;">
-                        <input type="text" class="form-control" placeholder="Cari">
-                        <button class="btn btn-success"><i class="fa fa-search"></i></button>
-                    </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                        <i class="fa fa-plus"></i>
-                    </button>
+    <div class="container my-5">
+        <div class="card shadow border-0" id="draggable-card">
+            <div class="card-header bg-light p-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h4 class="mb-0">Buat Transaksi</h4>
                 </div>
             </div>
-            
+    
+            <div class="card-body">
+                <div class="row g-4">
+                    <!-- Produk Table -->
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm border-0 p-3 h-100">
+                            <div class="glass-table-container" id="produk-container">
+                                <table class="glass-table text-center" id="produk-card">
+                                    <thead class="table-primary w-50">
+                                        <tr>
+                                            <th style="width:10%;">NO</th>
+                                            <th style="width:30%;">PRODUK</th>
+                                            <th style="width:20%;">HARGA</th>
+                                            <th style="width:20%;">STOK</th>
+                                            <th style="width:20%;">AKSI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="add-barang-transaksi"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Form Input -->
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm border-0 p-4 h-100">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Daftar Produk</label>
+                                    <textarea class="form-control" id="add-daftar-produk" rows="3" readonly></textarea>
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Pelanggan*</label>
+                                    <select class="form-select select2" id="add-pelanggan">
+                                        <option value="">Select one</option>
+                                        <option value="1">New Delhi</option>
+                                        <option value="2">Istanbul</option>
+                                        <option value="3">Jakarta</option>
+                                    </select>
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Harga*</label>
+                                    <input type="text" class="form-control" id="total-harga" placeholder="Auto Price" readonly>
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Tanggal*</label>
+                                    <input type="date" class="form-control" id="form-tanggal" required>
+                                </div>
+    
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="reset" class="btn btn-outline-secondary rounded-pill px-4" onclick="cartReset()">Reset</button>
+                                    <button type="button" class="btn btn-primary rounded-pill px-4" id="save-btn" onclick="sendTransaction()">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
+<div class="container my-4">
+    <div class="card shadow border-0 my-4 " id="draggable-card2">
+        <div class="card-header bg-light p-4">
+            <div class="row align-items-center g-3">
+                <div class="col-12 col-md-8 text-center text-md-start">
+                    <h4 class="mb-0 text-nowrap">Data Transaksi</h4>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
+                        <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
+                            <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                            <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body">
             <!-- Table -->
             <div class="glass-table-container">
                 <table class="glass-table">
                     <thead class="table-primary">
                         <tr>
                             <th class="w-10">NO</th>
-                            <th class="w-25">NAMA</th>
-                            <th class="w-25">TELEPON</th>
-                            <th class="w-25">ALAMAT</th>
-                            <th class="w-15">AKSI</th>
+                            <th class="w-15">PELANGGAN</th>
+                            <th class="w-15">ADMIN</th>
+                            <th class="w-20">DAFTAR PRODUK</th>
+                            <th class="w-15">TANGGAL</th>
+                            <th class="w-15">HARGA</th>
+                            <th class="w-10">AKSI</th>
                         </tr>
                     </thead>
                     <tbody id="table">
@@ -274,10 +328,40 @@
 
 @endsection
 @section('script')
+<!-- jQuery + jQuery UI -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+    $('#edit-no').on('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(function() {
+    // Select2 Initialization
+    $("#add-pelanggan").select2({
+        placeholder: "Select a user",
+        theme: "bootstrap4",
+    });
+
+    // Draggable & Resizable Cards
+    function makeDraggableResizable(id) {
+        $(id).draggable({
+            handle: ".card-header",
+            containment: ".wrapper"
+        }).resizable({
+            minHeight: 150,
+            minWidth: 200
+        });
+    }
+
+    makeDraggableResizable("#draggable-card");
+    makeDraggableResizable("#draggable-card2");
+});
+
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
     });
 </script>
-<script src="{{asset("/assets/js/pelanggan.js")}}" defer></script>
+<script src="{{asset("/assets/js/transaksi.js")}}" defer></script>
 @endsection

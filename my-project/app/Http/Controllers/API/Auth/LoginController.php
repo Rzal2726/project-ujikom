@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -13,15 +14,18 @@ class LoginController extends Controller
      * Display a listing of the resource.
      */
     public function login(Request $request){
-        if (Auth::check()) {
+        $user = $request->user(); // Sanctum auto-detect user by token
+
+        if (!$user) {
             return response()->json([
-                'message' => 'berhasil login'
-            ], 200);
-        }else{
-            return response()->json([
-                'message' => 'gagal login'
-            ], 200);
+                'message' => 'Invalid Token or User Not Found'
+            ], 400);
         }
+
+        return response()->json([
+            'message' => 'Token Valid',
+            'user' => $user
+        ], 200);
     }
 
     public function actionlogin(Request $request)
@@ -32,8 +36,11 @@ class LoginController extends Controller
         ];
 
         if (Auth::Attempt($data)) {
+            $user = Auth::user();
+            $token = $user->createToken('API Token')->plainTextToken;
             return response()->json([
-                'message' => 'Berhasil Login'
+                'message' => 'Berhasil Login',
+                'token' => $token
             ], 200);
         }else{
             Session::flash('error', 'Email atau Password Salah');
@@ -43,11 +50,12 @@ class LoginController extends Controller
         }
     }
 
-    public function actionlogout()
+    public function actionlogout(Request $request)
     {
-        Auth::logout();
+        $user = $request->user(); // Get user from token
+        $user->currentAccessToken()->delete(); // Delete only current token
         return response()->json([
-            'message' => 'Berhasil Login'
+            'message' => 'Berhasil Logout'
         ], 200);
     }
 }

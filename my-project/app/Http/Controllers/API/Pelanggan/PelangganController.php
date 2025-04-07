@@ -16,6 +16,27 @@ class PelangganController extends Controller
         ], 200);
     }
 
+    public function getAll(){
+        $data = Pelanggan::all();
+        return response()->json([
+            'message' => 'berhasil mendapatkan data',
+            'data' => $data
+        ], 200);
+    }
+
+    public function searchData(Request $request){
+        $data = Pelanggan::orderBy('id','asc');
+        if($request->has('search')){
+            $data->where('nama','like','%'.$request->search.'%')
+            ->orWhere('alamat','like','%'.$request->search.'%')
+            ->orWhere('no_telp','like','%'.$request->search.'%');
+        }
+        return response()->json([
+            'message' => 'berhasil mendapatkan data',
+            'data' => $data->paginate(10)
+        ], 200);
+    }
+
     public function addData(Request $request){
         $data = Pelanggan::create([
             'nama' => $request->name,

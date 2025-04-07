@@ -1,52 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/icon.ico') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R Manager - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body class="bg-light">
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card p-4 border-0 shadow-lg" style="width: 100%; max-width: 400px;">
+        <div class="card p-4 border-0 shadow-lg w-100" style="max-width: 400px;">
             <div class="card-body">
-                <div class="row mb-5">
-                    <div class="col-2"></div>
-                    <div class=" col-8 navbar-brand fw-bold text-white text-center border border-primary bg-primary bg-gradient border-5 rounded p-2" href="#"><i class="fa fa-tachometer-alt"></i> RL Products Manager</div>
-                    <div class="col-2"></div>
+    
+                <!-- Logo Centered -->
+                <div class="text-center mb-4">
+                    <img src="{{ asset('/assets/images/logo.png') }}" class="img-fluid" style="max-width: 150px;" alt="Logo">
                 </div>
-
+    
                 <h2 class="card-title text-center mb-4">Login</h2>
-                
-                <form method="post">
+    
+                <form>
                     @csrf
+    
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control border-0 border-bottom" id="email" placeholder="Enter your email" required>
+                        <input type="email" class="form-control border-0 border-bottom rounded-0" id="email" placeholder="Enter your email ( john@example.com )" required>
                     </div>
-
-                    <div class="mb-3">
+    
+                    <div class="mb-3 position-relative">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control border-0 border-bottom" id="password" placeholder="Enter your password" required>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">Remember Me</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control border-0 border-bottom rounded-0" id="password" placeholder="Enter your password" required>
+                            <span class="input-group-text bg-transparent border-0 border-bottom rounded-0" onclick="togglePassword()" style="cursor: pointer;">
+                                <i id="togglePasswordIcon" class="fa fa-eye"></i>
+                            </span>
                         </div>
-                        <a href="#" class="text-decoration-none">Forgot Password?</a>
                     </div>
-
-                    <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+    
+                    <button type="button" class="btn btn-primary w-100 mt-3" onclick="login()">Login</button>
                 </form>
-
-                <p class="text-center mt-3">Don't have an account? <a href="#" class="text-primary">Sign Up</a></p>
+    
             </div>
         </div>
     </div>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.2.0/dist/js-loading-overlay.min.js"></script>
+    <script defer>
+        var app_url = "{{ env('APP_URL') }}";
+
+        function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('togglePasswordIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+async function login(){
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email.value.trim()) {
+    toastr.error("Kolom email tidak boleh kosong");
+    email.focus();
+    return false;
+    }
+
+    if (!emailPattern.test(email.value.trim())) {
+    toastr.error("Format email tidak valid");
+    email.focus();
+    return false;
+    }
+
+    if (!password.value.trim()) {
+    toastr.error("Kolom password tidak boleh kosong");
+    password.focus();
+    return false;
+    }
+    JsLoadingOverlay.show({ "spinnerIcon": "ball-spin" });
+    await fetch(app_url + "/api/auth/login", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify({
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+        })
+    })
+    .then(async (response) => {
+        JsLoadingOverlay.hide();
+        const res = await response.json();
+        
+        if(response.status === 200){
+            localStorage.setItem('token', res.token);
+            window.location.href = app_url + "/dashboard"; // <-- redirect here
+        }else if(response.status === 400){
+            toastr.error(res.message || 'Invalid email or password'); // <-- show error here
+        }else{
+            toastr.error('Something went wrong');
+        }
+    })
+    .catch((error) => {
+        JsLoadingOverlay.hide();
+        console.log(error);
+        toastr.error('Connection error');
+    });
+}
+
+    </script>
 </body>
 </html>

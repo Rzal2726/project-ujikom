@@ -3,11 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
         <!-- Brand -->
-        <img src="" alt="">
-        <a class="navbar-brand fw-bold text-white px-3 py-2 rounded border border-2 border-primary bg-primary bg-gradient shadow-sm d-flex align-items-center gap-2" href="#">
-            <i class="fa fa-tachometer-alt"></i>
-            RL Products Manager
-        </a>
+        <img src="{{asset("/assets/images/logo.png")}}" class="img-fluid" style="max-width: 10%;" alt="logo">
         <!-- Mobile Toggle Button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -46,10 +42,11 @@
                     <i class="fa fa-cog"></i> Pengaturan
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#"><i class="fa fa-user-circle"></i> Profil</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    <li><a class="dropdown-item" href="#"  data-bs-toggle="modal" data-bs-target="#modalProfile"><i class="fa fa-user-circle"></i> Profil</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </nav>
+

@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/icon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/images/icon.ico') }}">
         <title>RL Manager - Dashboard</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
@@ -20,6 +21,11 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Select2 Core CSS -->
+
+<!-- Select2 Bootstrap 4 Theme -->
+<link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+
     </head>
 
     <body>
@@ -49,28 +55,65 @@
         </header>
 
         <main class="wrapper">
+            <!-- Profile Modal -->
+            <div class="modal fade" id="modalProfile" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
+            aria-labelledby="modalTitleId" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-3">
+                    
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-light border-0">
+                        <h5 class="modal-title fw-bold" id="modalTitleId">Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Form -->
+                    <form>
+                        <div class="modal-body px-4">
+                            <div class="mb-3">
+                                <label for="inputId" class="form-label fw-semibold">Name</label>
+                                <input type="text" class="form-control rounded" id="profil-name" name="id" placeholder="Enter Name" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputName" class="form-label fw-semibold">Email</label>
+                                <input type="text" class="form-control rounded" id="profil-email" name="name" placeholder="Enter Email" readonly> 
+                            </div>  
+                        </div>
+
+                        <!-- Modal Footer -->
+                        <div class="modal-footer border-0 px-4 pb-4">
+                            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            </div>
             @yield('content') 
         </main>
-        <footer class="bg-dark text-light text-center py-3">
-            <div class="container text-center text-md-start">
-                <div class="row">
-                    <!-- Column 1 -->
-                    <div class="col-md-4">
-                        <h5>RL Products Manager</h5>
-                        <p>Building the future, one line of code at a time.</p>
+        <footer class="bg-dark text-light py-4 mt-auto">
+            <div class="container">
+                <div class="row text-center text-md-start align-items-center">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <h5 class="fw-bold">RL Products Manager</h5>
+                        <p class="mb-0 small">Building the future, one line of code at a time.</p>
                     </div>
-                    <!-- Column 2 -->
-                    <div class="col-md-4">
+    
+                    <div class="col-md-4 mb-3 mb-md-0 d-none d-md-block">
+                        <!-- Spacer -->
                     </div>
-                    <!-- Column 3 -->
+    
                     <div class="col-md-4">
-                        <h5>Follow Us</h5>
-                        <a href="https://www.instagram.com/rzplayem2726/" class="text-light"><i class="fa fa-instagram"></i></a>
+                        <h5 class="fw-bold">Follow Us</h5>
+                        <a href="https://www.instagram.com/rzplayem2726/" class="text-light fs-4">
+                            <i class="fa fa-instagram"></i>
+                        </a>
                     </div>
                 </div>
-                <!-- Bottom text -->
-                <div class="text-center mt-3">
-                    <p class="mb-0">&copy; 2025 RL Products Manager. All rights reserved.</p>
+    
+                <div class="border-top mt-3 pt-3 text-center small">
+                    &copy; 2025 RL Content Manager. All rights reserved.
                 </div>
             </div>
         </footer>
@@ -93,7 +136,54 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
             var app_url = "{{ env('APP_URL') }}";
-            console.log(app_url); // Check in browser console
+            let user_profile;
+            async function checkAuth() {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = app_url + "/"; // redirect to login
+                }
+
+                await fetch(app_url + "/api/auth/check", {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(response => {
+                    if(response.status == 200){
+                        return response.json();  // parse json if 200
+                    } else {
+                        throw new Error('Invalid Token');
+                    }
+                })
+                .then(data => {
+                    user_profile = data.user;  // store user data
+                    document.getElementById('profil-name').value = user_profile['name']
+                    document.getElementById('profil-email').value = user_profile['email']
+                })
+                .catch(error => {
+                    window.location.href = app_url + "/"; // force logout
+                });
+            }
+            async function logout(){
+                const token = localStorage.getItem('token');
+
+                const response = await fetch(app_url + "/api/auth/logout", {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if(response.status === 200){
+                    localStorage.removeItem('token'); 
+                    window.location.href = app_url + "/"; // redirect to login
+                }else{
+                    toastr.error("Logout gagal");
+                }
+            }
+            // call this on every protected page
+            checkAuth();
         </script>
         @yield('script')
     </body>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,6 +19,9 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    public function transaksi(): HasMany{
+        return $this->hasMany(Transaksi::class, 'id_admin');
+    }
     protected $fillable = [
         'name',
         'email',

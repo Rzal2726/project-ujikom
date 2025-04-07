@@ -281,47 +281,56 @@
             </div>
                         <!-- Table -->
                         <style>
+                            /* Glass Container */
                             .glass-table-container {
                                 padding: 2rem;
                                 background: #f2f4f7;
                                 border-radius: 16px;
+                                overflow-x: auto;
                             }
-                        
+                            
+                            /* Responsive Table */
                             .glass-table {
                                 width: 100%;
                                 border-collapse: separate;
                                 border-spacing: 0 15px;
+                                min-width: 600px;
                             }
-                        
+                            
+                            /* Table Head */
                             .glass-table thead th {
                                 color: #555;
                                 text-transform: uppercase;
                                 font-weight: 600;
                                 text-align: center;
                                 padding-bottom: 1rem;
+                                white-space: nowrap;
                             }
-                        
+                            
+                            /* Table Body */
                             .glass-table tbody tr {
-                                background: rgba(255, 255, 255, 0.5);
-                                backdrop-filter: blur(8px);
-                                -webkit-backdrop-filter: blur(8px);
-                                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-                                border-radius: 12px;
-                                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                background: rgba(255, 255, 255, 0.15);
+                                border: 1px solid rgba(255, 255, 255, 0.2);
+                                border-radius: 16px;
+                                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+                                transition: all 0.3s ease;
                             }
-                        
+                            
                             .glass-table tbody tr:hover {
                                 transform: translateY(-3px);
                                 box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
                             }
-                        
+                            
+                            /* Table Cell */
                             .glass-table td {
                                 padding: 1rem 1.5rem;
                                 text-align: center;
                                 font-weight: 500;
                                 color: #333;
+                                white-space: nowrap;
                             }
-                        
+                            
+                            /* Action Button Style */
                             .action-btn {
                                 border: none;
                                 padding: 8px 12px;
@@ -331,23 +340,61 @@
                                 font-size: 14px;
                                 transition: background 0.3s;
                             }
-                        
+                            
                             .btn-edit {
                                 background: #4caf50;
                             }
-                        
                             .btn-edit:hover {
                                 background: #45a049;
                             }
-                        
+                            
                             .btn-delete {
                                 background: #e74c3c;
                             }
-                        
                             .btn-delete:hover {
                                 background: #c0392b;
                             }
-                        </style>
+                            
+                            
+                            /* Input Field Glass */
+                            .input-group input {
+                                background: rgba(255, 255, 255, 0.6);
+                                border: none;
+                                color: #333;
+                            }
+                            
+                            /* Pagination Glass */
+                            #pagination button {
+                                backdrop-filter: blur(4px);
+                                border: 1px solid rgba(255, 255, 255, 0.1);
+                            }
+                            
+                            /* Responsive */
+                            @media (max-width: 768px) {
+                                .glass-table-container {
+                                    padding: 1rem;
+                                }
+                            
+                                .glass-table {
+                                    min-width: unset;
+                                    font-size: 14px;
+                                }
+                            
+                                .glass-table td, .glass-table th {
+                                    padding: 0.5rem 0.8rem;
+                                }
+                            
+                                .action-btn {
+                                    padding: 6px 8px;
+                                    font-size: 12px;
+                                }
+                            
+                                #pagination button {
+                                    padding: 6px 10px;
+                                    font-size: 12px;
+                                }
+                            }
+                            </style>
                         
                         <div class="glass-table-container">
                             <table class="glass-table">

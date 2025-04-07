@@ -3,12 +3,12 @@ if(!localStorage.getItem("token")){
   }
   
   const endpoints = {
-    getData: app_url+"/api/pelanggan/get-data",
-    searchData: app_url+"/api/pelanggan/search-data",
-    addData: app_url+"/api/pelanggan/add-data",
-    editData: app_url+"/api/pelanggan/edit-data/",
-    showData: app_url+"/api/pelanggan/show-data/",
-    deleteData: app_url+"/api/pelanggan/delete-data/",
+    getData: app_url+"/api/produk/get-data",
+    searchData: app_url+"/api/produk/search-data",
+    addData: app_url+"/api/produk/add-data",
+    editData: app_url+"/api/produk/edit-data/",
+    showData: app_url+"/api/produk/show-data/",
+    deleteData: app_url+"/api/produk/delete-data/",
   };
   
   let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
@@ -135,9 +135,10 @@ if(!localStorage.getItem("token")){
     document.getElementById('table').innerHTML = currentItems.map((data, index) => `
         <tr>
         <td>${index+1+startIndex}</td>
-        <td>${data.nama}</td>
-        <td>+62 ${data.no_telp}</td>
-        <td>${data.alamat}</td>
+        <td>${data.nama_barang}</td>
+        <td>${data.stok}</td>
+        <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
+        <td>${data.kategori}</td>
             <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
               <button 
@@ -162,7 +163,7 @@ if(!localStorage.getItem("token")){
     if (currentItems.length === 0) {
       document.getElementById('table').innerHTML = `
           <tr>
-              <td colspan="5" class="text-center">Tidak Ada Data</td>
+              <td colspan="6" class="text-center">Tidak Ada Data</td>
           </tr>
       `;
     }
@@ -172,30 +173,36 @@ if(!localStorage.getItem("token")){
     fetchData(endpoints.showData + id).then(response => {
         const data = response.data;
         document.getElementById('edit-id').value = data['id'];
-        document.getElementById('edit-nama').value = data['nama'];
-        document.getElementById('edit-alamat').value = data['alamat'];
-        document.getElementById('edit-no').value = data['no_telp'];
+        document.getElementById('edit-nama').value = data['nama_barang'];
+        document.getElementById('edit-stok').value = data['stok'];
+        document.getElementById('edit-harga').value = data['harga'];
+        document.getElementById('edit-kategori').value = data['kategori'];
         localStorage.setItem('data_id', id);
       });
     }
     
     function plus(){
       document.getElementById('add-nama').value = "";
-      document.getElementById('add-alamat').value = ""
-      document.getElementById('add-no').value = "";
+      document.getElementById('add-stok').value = ""
+      document.getElementById('add-harga').value = "";
+      document.getElementById('add-kategori').value = "";
   }
   //Fungsi CRUD
   async function update() {
     if(document.getElementById('edit-nama').value == ""){
-      toastr.error("Kolom nama tidak boleh kosong")
+      toastr.error("Kolom nama barang tidak boleh kosong")
       return false
     }
-    if(document.getElementById('edit-alamat').value == ""){
-      toastr.error("Kolom alamat tidak boleh kosong")
+    if(document.getElementById('edit-stok').value == ""){
+      toastr.error("Kolom stok tidak boleh kosong")
       return false
     }
-    if(document.getElementById('edit-no').value == ""){
-      toastr.error("Kolom notelp tidak boleh kosong")
+    if(document.getElementById('edit-harga').value == ""){
+      toastr.error("Kolom harga tidak boleh kosong")
+      return false
+    }
+    if(document.getElementById('edit-kategori').value == ""){
+      toastr.error("Kolom kategori tidak boleh kosong")
       return false
     }
     const id = localStorage.getItem('data_id');
@@ -205,9 +212,10 @@ if(!localStorage.getItem("token")){
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: document.getElementById('edit-nama').value,
-        alamat: document.getElementById('edit-alamat').value,
-        no_telp: document.getElementById('edit-no').value,
+        nama_barang: document.getElementById('edit-nama').value,
+        stok: document.getElementById('edit-stok').value,
+        harga: document.getElementById('edit-harga').value,
+        kategori: document.getElementById('edit-kategori').value,
     }) });
     toastr.success("Data successfully updated");
     dataTable();
@@ -240,9 +248,10 @@ if(!localStorage.getItem("token")){
               'Content-Type': 'application/json',
               'Authorization': 'Bearer '+localStorage.getItem('token') },
             body: JSON.stringify({
-              name: document.getElementById('add-nama').value,
-              alamat: document.getElementById('add-alamat').value,
-              no_telp: document.getElementById('add-no').value,
+              nama_barang: document.getElementById('add-nama').value,
+              stok: document.getElementById('add-stok').value,
+              harga: document.getElementById('add-harga').value,
+              kategori: document.getElementById('add-kategori').value,
             })
           }).then((response) => response.json())
           .then((response) => {

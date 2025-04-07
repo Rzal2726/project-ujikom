@@ -3,20 +3,25 @@ if(!localStorage.getItem("token")){
   }
   
   const endpoints = {
-    getData: app_url+"/api/pelanggan/get-data",
-    searchData: app_url+"/api/pelanggan/search-data",
-    addData: app_url+"/api/pelanggan/add-data",
-    editData: app_url+"/api/pelanggan/edit-data/",
-    showData: app_url+"/api/pelanggan/show-data/",
-    deleteData: app_url+"/api/pelanggan/delete-data/",
+    getData: app_url+"/api/transaksi/get-data",
+    searchData: app_url+"/api/transaksi/search-data",
+    addData: app_url+"/api/transaksi/add-data",
+    editData: app_url+"/api/transaksi/edit-data/",
+    showData: app_url+"/api/transaksi/show-data/",
+    deleteData: app_url+"/api/transaksi/delete-data/",
+    getProduk: app_url+"/api/produk/get-data",
+    updateStok: app_url+"/api/produk/update-stok",
+    getPelanggan: app_url+"/api/pelanggan/get-all"
   };
   
   let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
+  let DataProduk = [], currentProdukPage = 1;
+  let cart = {};
   //initialize
   initialize()
   async function initialize(){
     dataTable()
-    // statusSelect()
+    userSelect()
   }
   
   //Get Data dari Api
@@ -29,11 +34,11 @@ if(!localStorage.getItem("token")){
     return response.json();
   }
   
-//   async function userSelect() {
-//     const response = await fetchData(endpoints.employees);
-//     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
-//     document.getElementById('name').innerHTML = "<option></option>" + options;
-//   }
+  async function userSelect() {
+    const response = await fetchData(endpoints.getPelanggan);
+    const options = response.data.map(data => `<option value="${data.id}">${data.nama}</option>`).join("");
+    document.getElementById('add-pelanggan').innerHTML = "<option></option>" + options;
+  }
 //   async function statusSelect() {
 //     const response = await fetchData(endpoints.status);
 //     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
@@ -45,6 +50,13 @@ if(!localStorage.getItem("token")){
       method: "GET", 
     });
     Data = response.data;
+  }
+
+  async function ProdukTable() {
+    const response = await fetchData(endpoints.getProduk+"?page="+currentPage, {
+      method: "GET", 
+    });
+    DataProduk = response.data;
   }
   
   async function searchTable() {
@@ -121,7 +133,9 @@ if(!localStorage.getItem("token")){
     isFilter && (currentPage = 1);
     isFilter = false;
     await Table();
+    await ProdukTable();
     updateTable();
+    updateProdukTable();
     JsLoadingOverlay.hide();
   }
   
@@ -131,14 +145,17 @@ if(!localStorage.getItem("token")){
     const currentItems = Data.data;
     
     showPagination();
+    console.log(currentItems)
     document.getElementById('count').textContent = `Page ${currentPage} of ${totalPages} | Showing ${currentItems.length} item(s)`;
     document.getElementById('table').innerHTML = currentItems.map((data, index) => `
         <tr>
         <td>${index+1+startIndex}</td>
-        <td>${data.nama}</td>
-        <td>+62 ${data.no_telp}</td>
-        <td>${data.alamat}</td>
-            <td class="d-flex justify-content-center">
+        <td>${data.pelanggan['nama'] ?? 'Guest'}</td>
+        <td>${data.user['name'] ?? '-'}</td>
+        <td>${data.daftar_produk.slice(0, 20)}</td>
+        <td>${new Date(data.tanggal).toLocaleDateString('en-GB')}</td>
+        <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
+        <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
               <button 
                 class="btn text-nowrap btn-primary edit-btn" 
@@ -146,7 +163,7 @@ if(!localStorage.getItem("token")){
                 data-id="${data.id}" 
                 data-bs-toggle="modal" 
                 data-bs-target="#modalEdit">
-                <i class="fa fa-pencil"></i> Edit
+                <i class="fa fa-info"></i> Detail
               </button>
 
               <button 
@@ -162,6 +179,46 @@ if(!localStorage.getItem("token")){
     if (currentItems.length === 0) {
       document.getElementById('table').innerHTML = `
           <tr>
+              <td colspan="7" class="text-center">Tidak Ada Data</td>
+          </tr>
+      `;
+    }
+  }
+
+  function updateProdukTable() {
+    const totalPages = Math.max(1, Math.ceil(DataProduk.total/itemsPerPage));
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = DataProduk.data;
+    
+    console.log(currentItems)
+    document.getElementById('add-barang-transaksi').innerHTML = currentItems.map((data, index) => `
+        <tr>
+        <td>${index+1+startIndex}</td>
+        <td>${data.nama_barang}</td>
+        <td>${data.harga}</td>
+        <td>${data.stok}</td>
+        <td class="d-flex justify-content-center">
+            <div class="d-flex gap-2">
+              <button 
+                class="btn text-nowrap btn-primary delete-btn" 
+                onclick="addToCart(${data.id}, '${data.nama_barang}', ${data.harga}, ${data.stok})"
+                id="plus-${data.id}">
+                <i class="fa fa-plus"></i>
+              </button>
+
+              <button 
+                class="btn text-nowrap btn-danger delete-btn" 
+                onclick="decreaseCart(${data.id})"
+                id="minus-${data.id}" disabled>
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            </td>
+        </tr>
+    `).join("");
+    if (currentItems.length === 0) {
+      document.getElementById('add-barang-transaksi').innerHTML = `
+          <tr>
               <td colspan="5" class="text-center">Tidak Ada Data</td>
           </tr>
       `;
@@ -171,10 +228,13 @@ if(!localStorage.getItem("token")){
   function edit(id) {
     fetchData(endpoints.showData + id).then(response => {
         const data = response.data;
-        document.getElementById('edit-id').value = data['id'];
-        document.getElementById('edit-nama').value = data['nama'];
-        document.getElementById('edit-alamat').value = data['alamat'];
-        document.getElementById('edit-no').value = data['no_telp'];
+        console.log(data)
+        document.getElementById('detail-id').value = data['id'];
+        document.getElementById('detail-pelanggan').value = data['pelanggan']['nama'];
+        document.getElementById('detail-admin').value = data['user']['name'];
+        document.getElementById('detail-harga').value = data['harga'];
+        document.getElementById('detail-tanggal').value = data['tanggal'];
+        document.getElementById('detail-produk').value = data['daftar_produk'];
         localStorage.setItem('data_id', id);
       });
     }
@@ -251,3 +311,147 @@ if(!localStorage.getItem("token")){
             dataTable()
           });
   }
+
+
+
+  function addToCart(id, name, price, stock) {
+    if (cart[id]) {
+        if (cart[id].qty < stock) {
+            cart[id].qty += 1;
+            cart[id].total = cart[id].qty * price;
+        }
+    } else {
+        cart[id] = {
+            name: name,
+            price: price,
+            qty: 1,
+            total: price,
+            stock: stock
+        };
+    }
+    renderCart();
+    toggleButton(id);
+}
+
+function decreaseCart(id) {
+    if (cart[id]) {
+        cart[id].qty -= 1;
+        cart[id].total = cart[id].qty * cart[id].price;
+        if (cart[id].qty <= 0) {
+            delete cart[id];
+        }
+    }
+    renderCart();
+    toggleButton(id);
+}
+
+function toggleButton(id) {
+    const plusBtn = document.getElementById(`plus-${id}`);
+    const minusBtn = document.getElementById(`minus-${id}`);
+    const item = cart[id];
+
+    if (item) {
+        plusBtn.disabled = item.qty >= item.stock;
+        minusBtn.disabled = item.qty <= 0;
+    } else {
+        plusBtn.disabled = false;
+        minusBtn.disabled = true;
+    }
+}
+  
+  function renderCart() {
+      let output = '';
+  
+      for (const id in cart) {
+          const item = cart[id];
+          output += `${item.name} | Qty: ${item.qty} | Harga: ${formatRupiah(item.price)} | Total: ${formatRupiah(item.total)}\n`;
+      }
+  
+      document.getElementById('add-daftar-produk').value = output || 'Keranjang kosong';
+      updateTotalPrice()
+  }
+  
+  function formatRupiah(angka) {
+      return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function updateTotalPrice() {
+    let totalPrice = 0;
+
+    for (const id in cart) {
+        totalPrice += cart[id].total;
+    }
+
+    document.getElementById('total-harga').value = totalPrice;
+}
+  
+async function saveTransaction() {
+  JsLoadingOverlay.show({
+    "spinnerIcon": "ball-spin"
+  });
+  try {
+      const response = await fetch(endpoints.addData, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          },
+          body: JSON.stringify({ 
+            harga: document.getElementById('total-harga').value,
+            daftar_produk: document.getElementById('add-daftar-produk').value,
+            tanggal: document.getElementById('form-tanggal').value,
+            id_pelanggan: document.getElementById('add-pelanggan').value ?? '',
+           })
+      });
+
+      if (!response.ok) throw new Error('Failed to update');
+
+      const result = await response.json();
+
+      toastr.success('Success update products stok')
+      updateTable()
+
+  } catch (error) {
+    toastr.error('Failed to update stock!', error)
+  } finally {
+    JsLoadingOverlay.hide()
+  }
+}
+
+async function saveCart() {
+  JsLoadingOverlay.show({
+    "spinnerIcon": "ball-spin"
+  });
+  try {
+      const response = await fetch(endpoints.updateStok, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          },
+          body: JSON.stringify({ cart: cart })
+      });
+
+      if (!response.ok) throw new Error('Failed to update');
+
+      const result = await response.json();
+
+      toastr.success('Success update products stok')
+      updateProdukTable()
+
+  } catch (error) {
+    toastr.error('Failed to update stock!', error)
+  } finally {
+    JsLoadingOverlay.hide()
+  }
+}
+
+async function sendTransaction(){
+  await saveCart()
+  await saveTransaction()
+}
+
+function cartReset(){
+  cart = {}
+  document.getElementById('total-harga').value = ""
+}
