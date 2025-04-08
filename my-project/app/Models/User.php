@@ -22,6 +22,9 @@ class User extends Authenticatable
     public function transaksi(): HasMany{
         return $this->hasMany(Transaksi::class, 'id_admin');
     }
+    public function loginCounter(): HasMany{
+        return $this->hasMany(LoginCounter::class, 'id_admin');
+    }
     protected $fillable = [
         'name',
         'email',

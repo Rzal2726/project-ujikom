@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoginCounter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -109,6 +110,21 @@ class UserController extends Controller
         }
         return response()->json([
             'message' => 'berhasil menghapus data',
+        ], 200);
+    }
+
+    public function getLogin(){
+        $data = LoginCounter::with('user')->paginate(10);
+
+        if ($data->isEmpty()) {
+            return response()->json([
+                'message' => 'gagal mendapatkan data',
+            ], 404); // Better to use 404 if data not found
+        }
+    
+        return response()->json([
+            'message' => 'berhasil mendapatkan data',
+            'data' => $data,
         ], 200);
     }
 }

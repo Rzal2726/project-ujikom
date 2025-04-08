@@ -4,6 +4,7 @@ if(!localStorage.getItem("token")){
 
 const endpoints = {
   getData: app_url+"/api/user/get-data",
+  getLogin: app_url+"/api/user/get-login",
   searchData: app_url+"/api/user/search-data",
   addData: app_url+"/api/user/add-data",
   editData: app_url+"/api/user/edit-data/",
@@ -12,10 +13,12 @@ const endpoints = {
 };
 
 let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
+let LoginData = [], currentLoginPage = 1, isLoginFilter = false;;
 //initialize
 initialize()
 async function initialize(){
   dataTable()
+  dataLoginTable()
   // statusSelect()
 }
 
@@ -29,16 +32,6 @@ async function fetchData(url, options = {}) {
   return response.json();
 }
 
-//   async function userSelect() {
-//     const response = await fetchData(endpoints.employees);
-//     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
-//     document.getElementById('name').innerHTML = "<option></option>" + options;
-//   }
-//   async function statusSelect() {
-//     const response = await fetchData(endpoints.status);
-//     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
-//     document.getElementById('status').innerHTML = "<option value=''>Select a status</option>" + options;
-//   }
 
 async function Table() {
   const response = await fetchData(endpoints.getData+"?page="+currentPage, {
@@ -245,4 +238,99 @@ async function add(){
           toastr.success("Data berhasil ditambahkan");
           dataTable()
         });
+}
+
+async function LoginTable() {
+  const response = await fetchData(endpoints.getLogin+"?page="+currentPage, {
+    method: "GET", 
+  });
+  LoginData = response.data;
+}
+
+
+
+//Pagination
+document.getElementById("prev-login").addEventListener("click", () => paginateLogin(-1));
+document.getElementById("next-login").addEventListener("click", () => paginateLogin(1));
+document.getElementById("last-login").addEventListener("click", () => changeLoginPage(Math.ceil(LoginData.total/itemsPerPage)));
+document.getElementById("first-login").addEventListener("click", () => changeLoginPage(1));
+
+function paginateLogin(direction) {
+  currentLoginPage += direction;
+  dataLoginTable();
+}
+
+function showLoginPagination() {
+  const totalPages = Math.max(1, Math.ceil(LoginData.total/itemsPerPage));
+  document.getElementById("first-login").style.display = currentLoginPage == 1 ? "none" : "block";
+  document.getElementById("last-login").style.display = currentLoginPage == Math.ceil(LoginData.total/itemsPerPage) ? "none" : "block";
+  document.getElementById("prev-login").style.display = currentLoginPage > 1 ? "block" : "none";
+  document.getElementById("next-login").style.display = currentLoginPage < LoginData.total/itemsPerPage ? "block" : "none";
+  document.getElementById("pagination-login").style.display = LoginData.total > 10 ? "block" : "none";
+  
+  let screenWidth = window.innerWidth;
+  let visiblePages = screenWidth < 576 ? 1 : 7; // Jika layar kecil, tampilkan 3 tombol, jika besar, tampilkan 7 tombol
+
+  let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+  let endPage = Math.min(totalPages, startPage + visiblePages - 1);
+
+  if (endPage - startPage + 1 < visiblePages) {
+    startPage = Math.max(1, endPage - visiblePages + 1);
+  }
+
+  let pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
+    .map(page => `<button type="button" onclick="changeLoginPage(${page})" class="btn ${screenWidth < 576 ? 'btn-sm' : ''} ${page === currentLoginPage ? 'btn-primary' : 'btn-outline-primary'} rounded mx-1">${page}</button>`)
+    .join("");
+
+  
+  document.getElementById("pagination-login").innerHTML = pages;
+  if(screenWidth < 576){
+    document.getElementById("first-login").classList.add("btn-sm");
+    document.getElementById("last-login").classList.add("btn-sm");
+    document.getElementById("next-login").classList.add("btn-sm");
+    document.getElementById("prev-login").classList.add("btn-sm");
+  }else{
+    document.getElementById("first-login").className = "btn rounded btn-primary mx-2"
+    document.getElementById("last-login").className = "btn rounded btn-primary mx-2"
+    document.getElementById("next-login").className = "btn rounded btn-primary mx-2"
+    document.getElementById("prev-login").className = "btn rounded btn-primary mx-2"
+  }
+}
+window.addEventListener("resize", showLoginPagination);
+
+function changeLoginPage(page) {
+  currentLoginPage = page;
+  paginateLogin(0);
+}
+
+//Tabel
+async function dataLoginTable() {
+  JsLoadingOverlay.show({ "spinnerIcon": "ball-spin" });
+  await LoginTable();
+  updateLoginTable();
+  JsLoadingOverlay.hide();
+}
+
+function updateLoginTable() {
+  const totalPages = Math.max(1, Math.ceil(LoginData.total/itemsPerPage));
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = LoginData.data;
+  
+  showPagination();
+  document.getElementById('count-login').textContent = `Page ${currentLoginPage} of ${totalPages} | Showing ${currentItems.length} item(s)`;
+  document.getElementById('table-login').innerHTML = currentItems.map((data, index) => `
+      <tr>
+      <td>${index+1+startIndex}</td>
+      <td>${data.user.name}</td>
+      <td>${new Date(data.tanggal).toLocaleDateString('en-GB')}</td>
+      <td>${data.ip}</td>
+      </tr>
+  `).join("");
+  if (currentItems.length === 0) {
+    document.getElementById('table-login').innerHTML = `
+        <tr>
+            <td colspan="4" class="text-center">Tidak Ada Data</td>
+        </tr>
+    `;
+  }
 }

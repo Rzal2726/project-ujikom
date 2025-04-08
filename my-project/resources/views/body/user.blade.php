@@ -265,6 +265,49 @@
     </div>
 </div>
 
+<div class="container my-4">
+    <div class="card shadow border-0 my-4 " id="draggable-card2">
+        <div class="card-header bg-light p-4">
+            <div class="row align-items-center g-3">
+                <div class="col-12 col-md-8 text-center text-md-start">
+                    <h4 class="mb-0 text-nowrap">Riwayat Login</h4>
+                </div>
+                <div class="col-12 col-md-4">
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <!-- Table -->
+            <div class="glass-table-container">
+                <table class="glass-table">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="w-10">NO</th>
+                            <th class="w-35">NAMA</th>
+                            <th class="w-35">TANGGAL</th>
+                            <th class="w-20">IP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-login">
+                    </tbody>
+                </table>
+            </div>
+            <div class="container d-flex flex-column justify-content-center align-items-center m-1">
+                <div class="container d-flex flex-row justify-content-center align-items-center m-2">
+                  <button type="button" class="btn rounded btn-primary mx-2" id="first-login">First</button>
+                  <button type="button" class="btn rounded btn-primary mx-2" id="prev-login"><</button>
+                  <div class="" id="pagination-login">
+                  </div>
+                  <button type="button" class="btn rounded btn-primary mx-2" id="next-login">></button>
+                  <button type="button" class="btn rounded btn-primary mx-2" id="last-login">Last</button>
+                </div>
+                <div id="count-login"></div>
+              </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
 <!-- jQuery + jQuery UI -->
@@ -276,6 +319,15 @@
     });
     $(function() {
         $("#draggable-card").draggable({
+            handle: ".card-header", // only drag from header
+            containment: ".wrapper"
+        }).resizable({
+            minHeight: 150,
+            minWidth: 200
+        });
+    });
+    $(function() {
+        $("#draggable-card2").draggable({
             handle: ".card-header", // only drag from header
             containment: ".wrapper"
         }).resizable({

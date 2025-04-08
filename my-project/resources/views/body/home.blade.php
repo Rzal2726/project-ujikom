@@ -107,7 +107,7 @@
                     <div class="content-left">
                         <span class="text-heading fw-bold text-primary">Transaksi</span>
                         <div class="d-flex align-items-center my-2">
-                            <h4 class="mb-0 me-2 text-dark fw-bold" id="userCounter">0</h4>
+                            <h4 class="mb-0 me-2 text-dark fw-bold" id="transaksi-counter">0</h4>
                         </div>
                         <small class="text-muted">Sudah tercatat</small>
                     </div>
@@ -131,7 +131,7 @@
                     <div class="content-left">
                         <span class="text-heading fw-bold text-danger">Produk</span>
                         <div class="d-flex align-items-center my-2">
-                            <h4 class="mb-0 me-2 text-dark fw-bold" id="liburCounter">0</h4>
+                            <h4 class="mb-0 me-2 text-dark fw-bold" id="produk-counter">0</h4>
                         </div>
                         <small class="text-muted">Sudah tercatat</small>
                     </div>
@@ -154,7 +154,7 @@
                     <div class="content-left">
                         <span class="text-heading fw-bold text-success">Pelanggan</span>
                         <div class="d-flex align-items-center my-2">
-                            <h4 class="mb-0 me-2 text-dark fw-bold" id="absenCounter">0</h4>
+                            <h4 class="mb-0 me-2 text-dark fw-bold" id="pelanggan-counter">0</h4>
                         </div>
                         <small class="text-muted">Sudah terdaftar</small>
                     </div>
@@ -179,7 +179,7 @@
                     <div class="content-left">
                         <span class="text-heading fw-bold text-warning">User</span>
                         <div class="d-flex align-items-center my-2">
-                            <h4 class="mb-0 me-2 text-dark fw-bold" id="requestCounter">0</h4>
+                            <h4 class="mb-0 me-2 text-dark fw-bold" id="user-counter">0</h4>
                         </div>
                         <small class="text-muted">Sudah Login Hari Ini</small>
                     </div>
@@ -211,41 +211,168 @@
         background-color: #0056b3;
     }
 </style>
-
+<!-- Table -->
+<style>
+    /* Glass Container */
+    .glass-table-container {
+        padding: 2rem;
+        background: #f2f4f7;
+        border-radius: 16px;
+        overflow-x: auto;
+    }
+    
+    /* Responsive Table */
+    .glass-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+        min-width: 600px;
+    }
+    
+    /* Table Head */
+    .glass-table thead th {
+        color: #555;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-align: center;
+        padding-bottom: 1rem;
+        white-space: nowrap;
+    }
+    
+    /* Table Body */
+    .glass-table tbody tr {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .glass-table tbody tr:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Table Cell */
+    .glass-table td {
+        padding: 1rem 1.5rem;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+        white-space: nowrap;
+    }
+    
+    /* Action Button Style */
+    .action-btn {
+        border: none;
+        padding: 8px 12px;
+        margin: 0 2px;
+        border-radius: 10px;
+        color: white;
+        font-size: 14px;
+        transition: background 0.3s;
+    }
+    
+    .btn-edit {
+        background: #4caf50;
+    }
+    .btn-edit:hover {
+        background: #45a049;
+    }
+    
+    .btn-delete {
+        background: #e74c3c;
+    }
+    .btn-delete:hover {
+        background: #c0392b;
+    }
+    
+    
+    /* Input Field Glass */
+    .input-group input {
+        background: rgba(255, 255, 255, 0.6);
+        border: none;
+        color: #333;
+    }
+    
+    /* Pagination Glass */
+    #pagination button {
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .glass-table-container {
+            padding: 1rem;
+        }
+    
+        .glass-table {
+            min-width: unset;
+            font-size: 14px;
+        }
+    
+        .glass-table td, .glass-table th {
+            padding: 0.5rem 0.8rem;
+        }
+    
+        .action-btn {
+            padding: 6px 8px;
+            font-size: 12px;
+        }
+    
+        #pagination button {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+    }
+    </style>
 
 <div class="row g-4 mx-5">
     <!-- Left Column -->
     <div class="col-xl-6">
         <!-- Transaksi Table -->
-        <div class="card shadow border-0 my-4">
+        <div class="card shadow border-0 my-4"  id="transaksi-card">
             <div class="card-header bg-light d-flex justify-content-between align-items-center p-4">
                 <div class="d-flex align-items-center">
                     <i class="fa fa-file-text fa-lg me-2 text-primary"></i>
                     <h5 class="mb-0 fw-bold">Transaksi</h5>
                 </div>
-                <a class="btn btn-primary btn-sm shadow-sm" href="#" role="button">See More</a>
+                <a class="btn btn-primary btn-sm shadow-sm" href="{{ route('transaksi-screen') }}" role="button">See More</a>
             </div>
-            <div class="table-responsive text-nowrap p-3">
-                <table class="table table-striped table-hover">
-                    <thead id="user-head"></thead>       
-                    <tbody id="user-body"></tbody>
+            <div class="glass-table-container">
+                <table class="glass-table">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>TANGGAL</th>
+                            <th>PELANGGAN</th>
+                        </tr>
+                    </thead>       
+                    <tbody id="table-transaksi"></tbody>
                 </table>
             </div>
         </div>
 
         <!-- Produk Table -->
-        <div class="card shadow border-0 my-4">
+        <div class="card shadow border-0 my-4"  id="produk-card">
             <div class="card-header bg-light d-flex justify-content-between align-items-center p-4">
                 <div class="d-flex align-items-center">
                     <i class="fa fa-archive fa-lg me-2 text-danger"></i>
                     <h5 class="mb-0 fw-bold">Produk</h5>
                 </div>
-                <a class="btn btn-primary btn-sm shadow-sm" href="#" role="button">See More</a>
+                <a class="btn btn-primary btn-sm shadow-sm" href="{{ route('produk-screen') }}" role="button">See More</a>
             </div>
-            <div class="table-responsive text-nowrap p-3">
-                <table class="table table-striped table-hover">
-                    <thead id="reimbursement-head"></thead>       
-                    <tbody id="reimbursement-body"></tbody>
+            <div class="glass-table-container">
+                <table class="glass-table">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>NAMA</th>
+                            <th>STOK</th>
+                        </tr>
+                    </thead>       
+                    <tbody id="table-produk"></tbody>
                 </table>
             </div>
         </div>
@@ -254,188 +381,47 @@
     <!-- Right Column -->
     <div class="col-xl-6">
         <!-- Pelanggan Table -->
-        <div class="card shadow border-0 my-4">
+        <div class="card shadow border-0 my-4"  id="pelanggan-card">
             <div class="card-header bg-light d-flex justify-content-between align-items-center p-4">
                 <div class="d-flex align-items-center">
                     <i class="fa fa-users fa-lg me-2 text-success"></i>
                     <h5 class="mb-0 fw-bold">Pelanggan</h5>
                 </div>
-                <a class="btn btn-primary btn-sm shadow-sm" href="#" role="button">See More</a>
+                <a class="btn btn-primary btn-sm shadow-sm" href="{{ route('pelanggan-screen') }}" role="button">See More</a>
             </div>
-            <div class="table-responsive text-nowrap p-3">
-                <table class="table table-striped table-hover">
-                    <thead id="absen-head"></thead>       
-                    <tbody id="absen-body"></tbody>
+            <div class="glass-table-container">
+                <table class="glass-table">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>NAMA</th>
+                            <th>TELEPON</th>
+                        </tr>
+                    </thead>       
+                    <tbody id="table-pelanggan"></tbody>
                 </table>
             </div>
         </div>
 
         <!-- User Table -->
-        <div class="card shadow border-0 my-4">
+        <div class="card shadow border-0 my-4" id="user-card">
             <div class="card-header bg-light d-flex justify-content-between align-items-center p-4">
                 <div class="d-flex align-items-center">
                     <i class="fa fa-user fa-lg me-2 text-warning"></i>
                     <h5 class="mb-0 fw-bold">User</h5>
                 </div>
-                <a class="btn btn-primary btn-sm shadow-sm" href="#" role="button">See More <i class="fa fa-chevron-right"></i></a>
+                <a class="btn btn-primary btn-sm shadow-sm" href="{{ route('user-screen') }}" role="button">See More</a>
             </div>
-                        <!-- Table -->
-                        <style>
-                            /* Glass Container */
-                            .glass-table-container {
-                                padding: 2rem;
-                                background: #f2f4f7;
-                                border-radius: 16px;
-                                overflow-x: auto;
-                            }
-                            
-                            /* Responsive Table */
-                            .glass-table {
-                                width: 100%;
-                                border-collapse: separate;
-                                border-spacing: 0 15px;
-                                min-width: 600px;
-                            }
-                            
-                            /* Table Head */
-                            .glass-table thead th {
-                                color: #555;
-                                text-transform: uppercase;
-                                font-weight: 600;
-                                text-align: center;
-                                padding-bottom: 1rem;
-                                white-space: nowrap;
-                            }
-                            
-                            /* Table Body */
-                            .glass-table tbody tr {
-                                background: rgba(255, 255, 255, 0.15);
-                                border: 1px solid rgba(255, 255, 255, 0.2);
-                                border-radius: 16px;
-                                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-                                transition: all 0.3s ease;
-                            }
-                            
-                            .glass-table tbody tr:hover {
-                                transform: translateY(-3px);
-                                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
-                            }
-                            
-                            /* Table Cell */
-                            .glass-table td {
-                                padding: 1rem 1.5rem;
-                                text-align: center;
-                                font-weight: 500;
-                                color: #333;
-                                white-space: nowrap;
-                            }
-                            
-                            /* Action Button Style */
-                            .action-btn {
-                                border: none;
-                                padding: 8px 12px;
-                                margin: 0 2px;
-                                border-radius: 10px;
-                                color: white;
-                                font-size: 14px;
-                                transition: background 0.3s;
-                            }
-                            
-                            .btn-edit {
-                                background: #4caf50;
-                            }
-                            .btn-edit:hover {
-                                background: #45a049;
-                            }
-                            
-                            .btn-delete {
-                                background: #e74c3c;
-                            }
-                            .btn-delete:hover {
-                                background: #c0392b;
-                            }
-                            
-                            
-                            /* Input Field Glass */
-                            .input-group input {
-                                background: rgba(255, 255, 255, 0.6);
-                                border: none;
-                                color: #333;
-                            }
-                            
-                            /* Pagination Glass */
-                            #pagination button {
-                                backdrop-filter: blur(4px);
-                                border: 1px solid rgba(255, 255, 255, 0.1);
-                            }
-                            
-                            /* Responsive */
-                            @media (max-width: 768px) {
-                                .glass-table-container {
-                                    padding: 1rem;
-                                }
-                            
-                                .glass-table {
-                                    min-width: unset;
-                                    font-size: 14px;
-                                }
-                            
-                                .glass-table td, .glass-table th {
-                                    padding: 0.5rem 0.8rem;
-                                }
-                            
-                                .action-btn {
-                                    padding: 6px 8px;
-                                    font-size: 12px;
-                                }
-                            
-                                #pagination button {
-                                    padding: 6px 10px;
-                                    font-size: 12px;
-                                }
-                            }
-                            </style>
-                        
                         <div class="glass-table-container">
                             <table class="glass-table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Nama</th>
-                                        <th>Alamat</th>
-                                        <th>Telepon</th>
-                                        <th>Aksi</th>
+                                        <th>NO</th>
+                                        <th>NAMA</th>
+                                        <th>EMAIL</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Rizal</td>
-                                        <td>Gadobangkong</td>
-                                        <td>083116549766</td>
-                                        <td>
-                                            <button class="action-btn btn-edit" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                                                Edit
-                                            </button>
-                                            <button class="action-btn btn-delete" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>John Doe</td>
-                                        <td>Gadobangkong</td>
-                                        <td>083116549766</td>
-                                        <td>
-                                            <button class="action-btn btn-edit" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                                                Edit
-                                            </button>
-                                            <button class="action-btn btn-delete" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                                                Delete
-                                            </button>
-                                        </td>
-                    </tr>
+                                <tbody id="table-user">
                     </tbody>
                 </table>
             </div>
@@ -447,10 +433,6 @@
 
 @endsection
 @section('script')
-{{-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
-    });
-</script>
-<script src="{{asset("/assets/js/pelanggan.js")}}" defer></script> --}}
+<script src="{{asset("/assets/js/home.js")}}" defer></script>
+
 @endsection

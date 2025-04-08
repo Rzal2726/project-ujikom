@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\LoginController;
+use App\Http\Controllers\API\Other\DashboardController;
 use App\Http\Controllers\API\Pelanggan\PelangganController;
 use App\Http\Controllers\API\Produk\ProdukController;
 use App\Http\Controllers\API\Transaksi\TransaksiController;
@@ -31,6 +32,7 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
     Route::post('edit-data/{id}', [UserController::class, 'editData']);
     Route::delete('delete-data/{id}', [UserController::class, 'deleteData']);
     Route::get('show-data/{id}', [UserController::class, 'showData']);
+    Route::get('get-login', [UserController::class, 'getLogin']);
   });
 
 Route::middleware('auth:sanctum')->prefix('produk')->group(function () {
@@ -50,4 +52,8 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::post('edit-data/{id}', [TransaksiController::class, 'editData']);
     Route::delete('delete-data/{id}', [TransaksiController::class, 'deleteData']);
     Route::get('show-data/{id}', [TransaksiController::class, 'showData']);
+  });
+
+Route::middleware('auth:sanctum')->prefix('other')->group(function () {
+    Route::get('get-counter', [DashboardController::class, 'getCounter']);
   });

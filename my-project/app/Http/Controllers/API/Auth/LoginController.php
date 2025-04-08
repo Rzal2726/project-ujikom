@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoginCounter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -38,6 +39,11 @@ class LoginController extends Controller
         if (Auth::Attempt($data)) {
             $user = Auth::user();
             $token = $user->createToken('API Token')->plainTextToken;
+            LoginCounter::create([
+                'id_user' => $user->id,
+                'tanggal' => now()->toDateString(),
+                'ip' => $request->ip()
+            ]);
             return response()->json([
                 'message' => 'Berhasil Login',
                 'token' => $token
