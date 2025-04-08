@@ -52,6 +52,7 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::post('edit-data/{id}', [TransaksiController::class, 'editData']);
     Route::delete('delete-data/{id}', [TransaksiController::class, 'deleteData']);
     Route::get('show-data/{id}', [TransaksiController::class, 'showData']);
+    Route::get('excel', [TransaksiController::class, 'exportExcel']);
   });
 
 Route::middleware('auth:sanctum')->prefix('other')->group(function () {

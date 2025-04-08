@@ -468,3 +468,29 @@ function cartReset(){
   cart = {}
   document.getElementById('total-harga').value = ""
 }
+
+function exportExcel() {
+  fetch(app_url + '/api/transaksi/excel', {
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to export file');
+    }
+    return response.blob();
+  })
+  .then(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data-transaksi.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  })
+  .catch(error => {
+    console.error('Error exporting file:', error);
+  });
+}

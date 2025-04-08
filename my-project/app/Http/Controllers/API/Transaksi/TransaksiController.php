@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API\Transaksi;
 
+use App\Exports\TransaksiExcelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransaksiController extends Controller
 {
@@ -93,5 +95,10 @@ class TransaksiController extends Controller
         return response()->json([
             'message' => 'berhasil menghapus data',
         ], 200);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new TransaksiExcelExport, 'data-transaksi.xlsx');
     }
 }

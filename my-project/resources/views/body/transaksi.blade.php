@@ -281,14 +281,22 @@
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
-                        <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
-                            <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
-                            <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
+                      
+                      <!-- Search Input -->
+                      <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
+                        <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                        <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                  
+                      <!-- Export Button -->
+                      <button class="btn btn-success rounded-pill text-nowrap" onclick="exportExcel()">
+                        <i class="fa fa-download"></i> Export
+                      </button>
+                  
                     </div>
-                </div>
+                  </div>                  
             </div>
         </div>
         
@@ -359,6 +367,7 @@
 
 </script>
 <script>
+    
     document.addEventListener("DOMContentLoaded", function () {
         console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
     });
