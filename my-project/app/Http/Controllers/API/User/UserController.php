@@ -38,6 +38,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $password,
+            'level_id' => $request->level,
         ]);
         if(!$data){
             return response()->json([
@@ -82,6 +83,7 @@ class UserController extends Controller
         $data->update([
             'name' => $request->name,
             'email' => $request->email,
+            'level_id' => $request->level,
         ]);
         if($request->has('password')){
             if(!isEmpty($request->password)){

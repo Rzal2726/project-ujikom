@@ -130,6 +130,7 @@ function updateTable() {
       <td>${index+1+startIndex}</td>
       <td>${data.name}</td>
       <td>${data.email}</td>
+      <td>${data.level_id == 2 ? 'Super Admin' : 'Admin'}</td>
           <td class="d-flex justify-content-center">
           <div class="d-flex gap-2">
             <button 
@@ -154,7 +155,7 @@ function updateTable() {
   if (currentItems.length === 0) {
     document.getElementById('table').innerHTML = `
         <tr>
-            <td colspan="4" class="text-center">Tidak Ada Data</td>
+            <td colspan="5" class="text-center">Tidak Ada Data</td>
         </tr>
     `;
   }
@@ -165,6 +166,7 @@ function edit(id) {
       const data = response.data;
       document.getElementById('edit-id').value = data['id'];
       document.getElementById('edit-name').value = data['name'];
+      document.getElementById('edit-level').value = data['level_id'];
       document.getElementById('edit-email').value = data['email'];
       document.getElementById('edit-password').value = "";
       localStorage.setItem('data_id', id);
@@ -196,6 +198,7 @@ async function update() {
       name: document.getElementById('edit-name').value,
       email: document.getElementById('edit-email').value,
       password: document.getElementById('edit-password').value,
+      level: document.getElementById('edit-level').value,
   }) });
   toastr.success("Data successfully updated");
   dataTable();
@@ -231,6 +234,7 @@ async function add(){
             name: document.getElementById('add-name').value,
             email: document.getElementById('add-email').value,
             password: document.getElementById('add-password').value,
+            level: document.getElementById('add-level').value,
           })
         }).then((response) => response.json())
         .then((response) => {

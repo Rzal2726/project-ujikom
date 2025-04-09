@@ -160,6 +160,9 @@
                     user_profile = data.user;  // store user data
                     document.getElementById('profil-name').value = user_profile['name']
                     document.getElementById('profil-email').value = user_profile['email']
+                    if(user_profile.level_id != 2){
+                        document.getElementById('user-nav').classList.add('d-none')
+                    }
                 })
                 .catch(error => {
                     window.location.href = app_url + "/"; // force logout

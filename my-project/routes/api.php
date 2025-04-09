@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
     Route::delete('delete-data/{id}', [UserController::class, 'deleteData']);
     Route::get('show-data/{id}', [UserController::class, 'showData']);
     Route::get('get-login', [UserController::class, 'getLogin']);
+    Route::get('get-level', [UserController::class, 'getLevel']);
   });
 
 Route::middleware('auth:sanctum')->prefix('produk')->group(function () {

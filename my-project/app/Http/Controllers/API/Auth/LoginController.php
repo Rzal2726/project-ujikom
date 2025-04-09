@@ -64,4 +64,10 @@ class LoginController extends Controller
             'message' => 'Berhasil Logout'
         ], 200);
     }
+
+    public function getLevel(){
+        return response()->json([
+            'data' => auth()->user()->level_id
+        ]);
+    }
 }

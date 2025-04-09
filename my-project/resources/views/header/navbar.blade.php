@@ -31,8 +31,13 @@
                 <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isProduk) && $isProduk])>
                     <a class="nav-link text-dark fw-semibold" href="{{ route('produk-screen') }}"><i class="fa fa-archive"></i> Produk</a>
                 </li>
-                <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isUser) && $isUser])>
-                    <a class="nav-link text-dark fw-semibold" href="{{ route('user-screen') }}"><i class="fa fa-user"></i> User</a>
+                <li @class([
+                    'navItem nav-item rounded',
+                    'border shadow' => !empty($isUser) && $isUser,
+                ]) id="user-nav">
+                    <a class="nav-link text-dark fw-semibold" href="{{ route('user-screen') }}">
+                        <i class="fa fa-user"></i> User 
+                    </a>
                 </li>
             </ul>
 

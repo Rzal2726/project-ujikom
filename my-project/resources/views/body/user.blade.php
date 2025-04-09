@@ -28,7 +28,19 @@
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Email*</label>
                         <input type="email" class="form-control rounded" id="add-email" name="email" placeholder="Enter Email" required>
-                    </div>     
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Level</label>
+                        <select
+                            class="form-select"
+                            name=""
+                            id="add-level"
+                        >
+                            <option selected value="1">Admin</option>
+                            <option value="2">Super Admin</option>
+                        </select>
+                    </div>
+                    
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Password*</label>
                         <input type="password" class="form-control rounded" id="add-password" name="alamat" placeholder="Enter Password" required>
@@ -74,6 +86,17 @@
                         <label for="inputAlamat" class="form-label fw-semibold">Email*</label>
                         <input type="email" class="form-control rounded" id="edit-email" name="alamat" placeholder="Enter Email" required>
                     </div>     
+                    <div class="mb-3">
+                        <label for="" class="form-label">Level</label>
+                        <select
+                            class="form-select"
+                            name=""
+                            id="edit-level"
+                        >
+                            <option selected value="1">Admin</option>
+                            <option value="2">Super Admin</option>
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Password</label>
                         <input type="password" class="form-control rounded" id="edit-password" name="no_hp" placeholder="Enter New Password" maxlength="11" required>
@@ -243,6 +266,7 @@
                             <th class="w-10">NO</th>
                             <th class="w-35">NAMA</th>
                             <th class="w-35">EMAIL</th>
+                            <th class="w-35">LEVEL</th>
                             <th class="w-20">AKSI</th>
                         </tr>
                     </thead>
