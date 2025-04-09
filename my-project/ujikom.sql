@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2025 at 06:20 AM
+-- Generation Time: Apr 09, 2025 at 01:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -140,7 +140,9 @@ CREATE TABLE `login_counter` (
 --
 
 INSERT INTO `login_counter` (`id`, `id_user`, `tanggal`, `ip`) VALUES
-(1, 2, '2025-04-08', '127.0.0.1');
+(1, 2, '2025-04-08', '127.0.0.1'),
+(2, 2, '2025-04-09', '127.0.0.1'),
+(3, 3, '2025-04-09', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -234,7 +236,8 @@ CREATE TABLE `personal_access_tokens` (
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (15, 'App\\Models\\User', 2, 'API Token', '6f612ab1cd706279a6955082c22276c54e0871cd15c47d67ceda24566d528531', '[\"*\"]', '2025-04-07 07:01:08', NULL, '2025-04-07 05:13:16', '2025-04-07 07:01:08'),
-(17, 'App\\Models\\User', 2, 'API Token', '2ff508904bf6b6887e44f66628268b641c8f3b86644a2e282379e57584740e15', '[\"*\"]', '2025-04-07 21:18:55', NULL, '2025-04-07 20:59:36', '2025-04-07 21:18:55');
+(17, 'App\\Models\\User', 2, 'API Token', '2ff508904bf6b6887e44f66628268b641c8f3b86644a2e282379e57584740e15', '[\"*\"]', '2025-04-07 21:39:19', NULL, '2025-04-07 20:59:36', '2025-04-07 21:39:19'),
+(19, 'App\\Models\\User', 3, 'API Token', '22271d4ec843c16a75fbcd27dfec2cdf032e3052a124920d93295e73bfaf29e3', '[\"*\"]', '2025-04-09 03:59:15', NULL, '2025-04-09 03:59:11', '2025-04-09 03:59:15');
 
 -- --------------------------------------------------------
 
@@ -257,7 +260,8 @@ CREATE TABLE `sessions` (
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('1GNuBHTr0R8zEW1cdfhqk3kShoG06MyXUpwmR1NT', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZVl0b0V0NzFBTjh6c2xGanlqbzdaTzV0R2RpUFdhUGR0Wkw1cW5PSyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQvdHJhbnNha3NpIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1744034465),
-('rqx79YrRvNIDG4z5l4b2btGnh0XUwG8G3VZHkM2Y', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicnplQVM3TERMZUFHTXNzQlhMNUhBdmhUck0wRUlTWDI1MHA5aFlGbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1744085932);
+('MgX2edaV9yPXQxlAvl7ADAFNQZmGeZHUdjiRBi2n', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUU41QXJKTnAyQ3p3eTA1bTBFUWxscGt3ekJSWkxaazBDc2VrVTJiNiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO319', 1744196351),
+('rqx79YrRvNIDG4z5l4b2btGnh0XUwG8G3VZHkM2Y', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 OPR/117.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicnplQVM3TERMZUFHTXNzQlhMNUhBdmhUck0wRUlTWDI1MHA5aFlGbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQvdHJhbnNha3NpIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1744087156);
 
 -- --------------------------------------------------------
 
@@ -271,7 +275,7 @@ CREATE TABLE `transaksi` (
   `daftar_produk` text NOT NULL,
   `tanggal` date NOT NULL,
   `id_pelanggan` int(11) DEFAULT NULL,
-  `id_admin` int(11) NOT NULL
+  `id_admin` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -292,6 +296,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `level_id` int(11) NOT NULL DEFAULT 1,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -303,8 +308,28 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Rizal123', 'rizal2726f@gmail.com', NULL, '$2y$12$EwZaTBYBUlsihbFd0Dztne7BV08lovirIunoCac9o9fohw0sSfBM6', NULL, '2025-04-06 22:07:04', '2025-04-07 04:19:00');
+INSERT INTO `users` (`id`, `name`, `email`, `level_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(2, 'Rizal123', 'rizal2726f@gmail.com', 2, NULL, '$2y$12$EwZaTBYBUlsihbFd0Dztne7BV08lovirIunoCac9o9fohw0sSfBM6', NULL, '2025-04-06 22:07:04', '2025-04-07 04:19:00'),
+(3, 'Atmin', 'bagas@example.com', 1, NULL, '$2y$12$XKKh/Oaye41bbuu9rKjHDO0Weu5lH3McT6ZF5eL2wD9Cx50fIPJ92', NULL, '2025-04-09 03:57:37', '2025-04-09 03:57:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_level`
+--
+
+CREATE TABLE `user_level` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_level`
+--
+
+INSERT INTO `user_level` (`id`, `name`) VALUES
+(1, 'Admin'),
+(2, 'SuperAdmin');
 
 --
 -- Indexes for dumped tables
@@ -399,7 +424,14 @@ ALTER TABLE `transaksi`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `fk_admin` (`level_id`);
+
+--
+-- Indexes for table `user_level`
+--
+ALTER TABLE `user_level`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -427,7 +459,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `login_counter`
 --
 ALTER TABLE `login_counter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -445,7 +477,7 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
@@ -457,7 +489,23 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `user_level`
+--
+ALTER TABLE `user_level`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_admin` FOREIGN KEY (`level_id`) REFERENCES `user_level` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
