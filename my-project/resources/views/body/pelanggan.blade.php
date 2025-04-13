@@ -281,6 +281,9 @@
     $('#edit-no').on('input', function() {
     this.value = this.value.replace(/[^0-9]/g, '');
     });
+    $('#add-no').on('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    });
     $(function() {
         $("#draggable-card").draggable({
             handle: ".card-header", // only drag from header

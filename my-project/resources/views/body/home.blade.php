@@ -433,6 +433,7 @@
 
 @endsection
 @section('script')
+
 <script src="{{asset("/assets/js/home.js")}}" defer></script>
 
 @endsection

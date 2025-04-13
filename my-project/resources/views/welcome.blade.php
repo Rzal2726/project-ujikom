@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/icon.ico') }}">
-        <link rel="shortcut icon" href="{{ asset('assets/images/icon.ico') }}">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/favicon.svg') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/svg+xml">
         <title>RL Manager - Dashboard</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
@@ -23,19 +23,46 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Select2 Core CSS -->
 
-<!-- Select2 Bootstrap 4 Theme -->
-<link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+        <!-- Select2 Bootstrap 4 Theme -->
+        <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
 
     </head>
 
     <body>
         <style>
             html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
                 height: 100%;
-                margin: 0;
-                background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* nice dark gradient */
-                background-attachment: fixed;
+                background-image: url('{{ asset('assets/images/background.jpg') }}');
                 background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                z-index: -2;
+            }
+
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); /* Layer gelap semi-transparan */
+                z-index: -1;
             }
         
             .wrapper {
@@ -134,6 +161,11 @@
         <script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.2.0/dist/js-loading-overlay.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        
+        @php
+        $currentRoute = Route::currentRouteName();
+        @endphp
+
         <script>
             var app_url = "{{ env('APP_URL') }}";
             let user_profile;
@@ -161,12 +193,20 @@
                     document.getElementById('profil-name').value = user_profile['name']
                     document.getElementById('profil-email').value = user_profile['email']
                     if(user_profile.level_id != 2){
-                        document.getElementById('user-nav').classList.add('d-none')
-                        document.getElementById('user-card').classList.add('d-none')
+                        document.getElementById('user-nav').classList.add('d-none');
+                        
+                        // Ini untuk halaman home-screen
+                        @if ($currentRoute === 'home-screen')
+                        const userCard = document.getElementById('user-card');
+                        if (userCard) {
+                            userCard.classList.add('d-none');
+                        }
+                        @endif
                     }
                 })
                 .catch(error => {
-                    window.location.href = app_url + "/"; // force logout
+                    // window.location.href = app_url + "/"; // force logout
+                    console.log(error)
                 });
             }
             async function logout(){
@@ -189,6 +229,7 @@
             // call this on every protected page
             checkAuth();
         </script>
+
         @yield('script')
     </body>
 </html>

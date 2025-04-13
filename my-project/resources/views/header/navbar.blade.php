@@ -3,7 +3,19 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
         <!-- Brand -->
-        <img src="{{asset("/assets/images/logo.png")}}" class="img-fluid" style="max-width: 10%;" alt="logo">
+        {{-- <img src="{{asset("/assets/images/logo.png")}}" class="img-fluid" style="max-width: 10%;" alt="logo"> --}}
+        <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <!-- Monitor Icon -->
+            <rect x="5" y="5" width="40" height="30" rx="3" ry="3" fill="#2d89ef"/>
+            <rect x="10" y="10" width="30" height="20" rx="1.5" ry="1.5" fill="white"/>
+            <rect x="18" y="37" width="14" height="3" fill="#2d89ef" rx="1"/>
+            <rect x="16" y="40" width="18" height="2" fill="#444"/>
+          
+            <!-- Text -->
+            <text x="60" y="28" font-family="Verdana, sans-serif" font-size="22" fill="#222" font-weight="bold">TechSector</text>
+            <text x="60" y="45" font-family="Verdana, sans-serif" font-size="10" fill="#888">Komputer & Aksesoris</text>
+          </svg>
+          
         <!-- Mobile Toggle Button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -30,6 +42,9 @@
                 </li>
                 <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isProduk) && $isProduk])>
                     <a class="nav-link text-dark fw-semibold" href="{{ route('produk-screen') }}"><i class="fa fa-archive"></i> Produk</a>
+                </li>
+                <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isProduk) && $isProduk])>
+                    <a class="nav-link text-dark fw-semibold" href="{{ route('produk-screen') }}"><i class="fa fa-list-alt"></i> Kategori</a>
                 </li>
                 <li @class([
                     'navItem nav-item rounded',

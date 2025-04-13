@@ -1,15 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\API\Produk;
+namespace App\Http\Controllers\API\Kategori;
 
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
-class ProdukController extends Controller
+class KategoriController extends Controller
 {
+    //
     public function getData(){
-        $data = Barang::with(['kategori'])->paginate(10);
+        $data = Kategori::paginate(10);
+        return response()->json([
+            'message' => 'berhasil mendapatkan data',
+            'data' => $data
+        ], 200);
+    }
+
+    public function getAll(){
+        $data = Kategori::all();
         return response()->json([
             'message' => 'berhasil mendapatkan data',
             'data' => $data
@@ -17,12 +26,9 @@ class ProdukController extends Controller
     }
 
     public function searchData(Request $request){
-        $data = Barang::orderBy('id','asc')->with(['kategori']);
+        $data = Kategori::orderBy('id','asc');
         if($request->has('search')){
-            $data->where('nama_barang','like','%'.$request->search.'%')
-            ->orWhere('stok','like','%'.$request->search.'%')
-            ->orWhere('harga','like','%'.$request->search.'%')
-            ->orWhere('kategori','like','%'.$request->search.'%');
+            $data->where('nama','like','%'.$request->search.'%');
         }
         return response()->json([
             'message' => 'berhasil mendapatkan data',
@@ -31,11 +37,8 @@ class ProdukController extends Controller
     }
 
     public function addData(Request $request){
-        $data = Barang::create([
-            'nama_barang' => $request->nama_barang,
-            'stok' => $request->stok,
-            'harga' => $request->harga,
-            'kategori' => $request->kategori,
+        $data = Kategori::create([
+            'nama' => $request->name,
         ]);
         if(!$data){
             return response()->json([
@@ -48,7 +51,7 @@ class ProdukController extends Controller
     }
 
     public function showData($id){
-        $data = Barang::where('id','=',$id)->with(['kategori'])->first();
+        $data = Kategori::where('id','=',$id)->first();
 
         if(!$data){
             return response()->json([
@@ -62,11 +65,8 @@ class ProdukController extends Controller
     }
 
     public function editData(Request $request, $id){
-        $data = Barang::where('id','=',$id)->update([
-            'nama_barang' => $request->nama_barang,
-            'stok' => $request->stok,
-            'harga' => $request->harga,
-            'kategori' => $request->kategori,
+        $data = Kategori::where('id','=',$id)->update([
+            'nama' => $request->name,
         ]);
         if(!$data){
             return response()->json([
@@ -79,7 +79,7 @@ class ProdukController extends Controller
     }
 
     public function deleteData($id){
-        $data = Barang::where('id','=',$id)->delete();
+        $data = Kategori::where('id','=',$id)->delete();
         if(!$data){
             return response()->json([
                 'message' => 'gagal menghapus data',
@@ -88,20 +88,5 @@ class ProdukController extends Controller
         return response()->json([
             'message' => 'berhasil menghapus data',
         ], 200);
-    }
-
-    public function updateStok(Request $request){
-        $cart = $request->cart;
-
-        foreach ($cart as $id => $item) {
-            $produk = Barang::find($id);
-            if ($produk && $produk->stok >= $item['qty']) {
-                $produk->stok -= $item['qty'];
-                $produk->save();
-            }
-        }
-
-        return response()->json(['message' => 'Stok Updated']);
-
     }
 }

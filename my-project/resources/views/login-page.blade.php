@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/icon.ico') }}">
-    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/favicon.svg') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/image/favicon.svg') }}" type="image/svg+xml">    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R Manager - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -10,7 +10,43 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<body class="bg-light">
+<body>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('assets/images/background.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2); /* Layer gelap semi-transparan */
+            z-index: -1;
+        }
+    </style>
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="card p-4 border-0 shadow-lg w-100" style="max-width: 400px;">
@@ -18,7 +54,18 @@
     
                 <!-- Logo Centered -->
                 <div class="text-center mb-4">
-                    <img src="{{ asset('/assets/images/logo.png') }}" class="img-fluid" style="max-width: 150px;" alt="Logo">
+                    <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+                        <!-- Monitor Icon -->
+                        <rect x="5" y="5" width="40" height="30" rx="3" ry="3" fill="#2d89ef"/>
+                        <rect x="10" y="10" width="30" height="20" rx="1.5" ry="1.5" fill="white"/>
+                        <rect x="18" y="37" width="14" height="3" fill="#2d89ef" rx="1"/>
+                        <rect x="16" y="40" width="18" height="2" fill="#444"/>
+                      
+                        <!-- Text -->
+                        <text x="60" y="28" font-family="Verdana, sans-serif" font-size="22" fill="#222" font-weight="bold">TechSector</text>
+                        <text x="60" y="45" font-family="Verdana, sans-serif" font-size="10" fill="#888">Komputer & Aksesoris</text>
+                      </svg>
+                      
                 </div>
     
                 <h2 class="card-title text-center mb-4">Login</h2>

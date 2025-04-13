@@ -360,13 +360,5 @@
         });
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
-    });
-    if(user_profile.level_id != 2){
-        window.location.href = app_url + "/"; // force logout
-    }
-</script>
 <script src="{{asset("/assets/js/user.js")}}" defer></script>
 @endsection

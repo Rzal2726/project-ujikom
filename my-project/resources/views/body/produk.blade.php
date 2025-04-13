@@ -38,7 +38,9 @@
                     </div>     
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Kategori*</label>
-                        <input type="text" class="form-control rounded" id="add-kategori" name="kategori" placeholder="Enter Category" required>
+                        <select name="" id="add-kategori" class="form-control rounded">
+                            <option value="">Pilih Kategori</option>
+                        </select>
                     </div>     
                 </div>
 
@@ -90,7 +92,9 @@
                     </div>     
                     <div class="mb-3">
                         <label for="inputAlamat" class="form-label fw-semibold">Kategori*</label>
-                        <input type="text" class="form-control rounded" id="edit-kategori" name="alamat" placeholder="Enter Category" required>
+                        <select name="" id="edit-kategori" class="form-control rounded">
+                            <option value="">Pilih Kategori</option>
+                        </select>
                     </div>     
                 </div>
 

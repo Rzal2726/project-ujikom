@@ -26,7 +26,7 @@
                         <input type="text" class="form-control rounded" id="detail-id" name="id" placeholder="Enter ID" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="inputName" class="form-label fw-semibold">Pelanggan*</label>
+                        <label for="inputName" class="form-label fw-semibold">Pelanggan</label>
                         <input type="text" class="form-control rounded" id="detail-pelanggan" name="name" placeholder="Enter Name" readonly> 
                     </div>
                     <div class="mb-3">
@@ -240,12 +240,9 @@
                                 </div>
     
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold">Pelanggan*</label>
+                                    <label class="form-label fw-semibold">Pelanggan</label>
                                     <select class="form-select select2" id="add-pelanggan">
                                         <option value="">Select one</option>
-                                        <option value="1">New Delhi</option>
-                                        <option value="2">Istanbul</option>
-                                        <option value="3">Jakarta</option>
                                     </select>
                                 </div>
     
@@ -284,7 +281,7 @@
                       
                       <!-- Search Input -->
                       <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
-                        <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                        <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari Data Transaksi">
                         <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
                           <i class="fa fa-search"></i>
                         </button>

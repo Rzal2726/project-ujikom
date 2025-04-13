@@ -48,17 +48,21 @@ const endpointsMap = {
     //   `Showing ${Data.data.length} item(s)`;
   
     document.getElementById(`table-${type}`).innerHTML = Data.data.map((data, index) => `
-      <tr>
+    <tr>
       <td>${index + 1}</td>
-      ${columns.map(col => `<td>${
-        typeof data[col] === 'object' 
-          ? data[col].nama
-          : col.toLowerCase().includes('tanggal') || col.toLowerCase().includes('date') 
-            ? new Date(data[col]).toLocaleDateString('en-GB') 
-            : data[col]
-      }</td>`).join("")}
+      ${columns.map(col => {
+        const value = data[col];
+        return `<td>${
+          typeof value === 'object'
+            ? value?.nama ?? '-'
+            : col.toLowerCase().includes('tanggal') || col.toLowerCase().includes('date')
+              ? (value ? new Date(value).toLocaleDateString('en-GB') : '-')
+              : value ?? '-'
+        }</td>`;
+      }).join("")}
     </tr>
   `).join("");
+
   }
   
   window.addEventListener('DOMContentLoaded', initAllTables);

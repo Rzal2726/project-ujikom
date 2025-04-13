@@ -150,7 +150,7 @@ if(!localStorage.getItem("token")){
     document.getElementById('table').innerHTML = currentItems.map((data, index) => `
         <tr>
         <td>${index+1+startIndex}</td>
-        <td>${data.pelanggan['nama'] ?? 'Guest'}</td>
+        <td>${data.pelanggan?.nama ?? 'Guest'}</td>
         <td>${data.user['name'] ?? '-'}</td>
         <td>${data.daftar_produk.slice(0, 20)}</td>
         <td>${new Date(data.tanggal).toLocaleDateString('en-GB')}</td>
@@ -463,6 +463,9 @@ async function sendTransaction(){
   }
   await saveTransaction()
   await saveCart()
+  document.getElementById("table").scrollIntoView({
+    behavior: "smooth"  // pakai "auto" kalau mau tanpa animasi
+});
 }
 
 function cartReset(){

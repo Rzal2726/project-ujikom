@@ -9,6 +9,7 @@ if(!localStorage.getItem("token")){
     editData: app_url+"/api/produk/edit-data/",
     showData: app_url+"/api/produk/show-data/",
     deleteData: app_url+"/api/produk/delete-data/",
+    getKategori: app_url+"/api/kategori/get-all",
   };
   
   let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
@@ -16,7 +17,7 @@ if(!localStorage.getItem("token")){
   initialize()
   async function initialize(){
     dataTable()
-    // statusSelect()
+    kategoriSelect()
   }
   
   //Get Data dari Api
@@ -29,11 +30,12 @@ if(!localStorage.getItem("token")){
     return response.json();
   }
   
-//   async function userSelect() {
-//     const response = await fetchData(endpoints.employees);
-//     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
-//     document.getElementById('name').innerHTML = "<option></option>" + options;
-//   }
+  async function kategoriSelect() {
+    const response = await fetchData(endpoints.getKategori);
+    const options = response.data.map(data => `<option value="${data.id}">${data.nama}</option>`).join("");
+    document.getElementById('add-kategori').innerHTML = "<option>Pilih Kategori</option>" + options;
+    document.getElementById('edit-kategori').innerHTML = "<option>Pilih Kategori</option>" + options;
+  }
 //   async function statusSelect() {
 //     const response = await fetchData(endpoints.status);
 //     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
@@ -138,7 +140,7 @@ if(!localStorage.getItem("token")){
         <td>${data.nama_barang}</td>
         <td>${data.stok}</td>
         <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
-        <td>${data.kategori}</td>
+        <td>${data.kategori.nama ?? '-'}</td>
             <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
               <button 
@@ -176,7 +178,7 @@ if(!localStorage.getItem("token")){
         document.getElementById('edit-nama').value = data['nama_barang'];
         document.getElementById('edit-stok').value = data['stok'];
         document.getElementById('edit-harga').value = data['harga'];
-        document.getElementById('edit-kategori').value = data['kategori'];
+        document.getElementById('edit-kategori').value = data['kategori']['id'];
         localStorage.setItem('data_id', id);
       });
     }

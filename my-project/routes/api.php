@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\API\Auth\LoginController;
+use App\Http\Controllers\API\Kategori\KategoriController;
 use App\Http\Controllers\API\Other\DashboardController;
 use App\Http\Controllers\API\Pelanggan\PelangganController;
 use App\Http\Controllers\API\Produk\ProdukController;
 use App\Http\Controllers\API\Transaksi\TransaksiController;
 use App\Http\Controllers\API\User\UserController;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +24,16 @@ Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::post('edit-data/{id}', [PelangganController::class, 'editData']);
     Route::delete('delete-data/{id}', [PelangganController::class, 'deleteData']);
     Route::get('show-data/{id}', [PelangganController::class, 'showData']);
+});
+
+Route::middleware('auth:sanctum')->prefix('kategori')->group(function () {
+    Route::get('get-data', [KategoriController::class, 'getData']);
+    Route::get('get-all', [KategoriController::class, 'getAll']);
+    Route::post('search-data', [KategoriController::class, 'searchData']);
+    Route::post('add-data', [KategoriController::class, 'addData']);
+    Route::post('edit-data/{id}', [KategoriController::class, 'editData']);
+    Route::delete('delete-data/{id}', [KategoriController::class, 'deleteData']);
+    Route::get('show-data/{id}', [KategoriController::class, 'showData']);
 });
   
 Route::middleware('auth:sanctum')->prefix('user')->group(function () {
