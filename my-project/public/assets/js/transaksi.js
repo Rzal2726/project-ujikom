@@ -200,8 +200,9 @@ if(!localStorage.getItem("token")){
         <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
               <button 
-                class="btn text-nowrap btn-primary delete-btn" 
+                class="btn text-nowrap btn-primary delete-btn " 
                 onclick="addToCart(${data.id}, '${data.nama_barang}', ${data.harga}, ${data.stok})"
+                ${data.stok < 1 ? ' disabled ' : ''}
                 id="plus-${data.id}">
                 <i class="fa fa-plus"></i>
               </button>
@@ -410,7 +411,7 @@ async function saveTransaction() {
       const result = await response.json();
 
       toastr.success('Success update transaction data')
-      updateTable()
+      dataTable()
 
   } catch (error) {
     toastr.error('Failed to update transaction data!', error)

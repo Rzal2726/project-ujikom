@@ -162,6 +162,7 @@
                     document.getElementById('profil-email').value = user_profile['email']
                     if(user_profile.level_id != 2){
                         document.getElementById('user-nav').classList.add('d-none')
+                        document.getElementById('user-card').classList.add('d-none')
                     }
                 })
                 .catch(error => {
