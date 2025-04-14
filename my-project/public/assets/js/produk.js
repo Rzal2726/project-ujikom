@@ -140,7 +140,7 @@ if(!localStorage.getItem("token")){
         <td>${data.nama_barang}</td>
         <td>${data.stok}</td>
         <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
-        <td>${data.kategori.nama ?? '-'}</td>
+        <td>${data.kategori?.nama ?? '-'}</td>
             <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
               <button 
@@ -178,7 +178,7 @@ if(!localStorage.getItem("token")){
         document.getElementById('edit-nama').value = data['nama_barang'];
         document.getElementById('edit-stok').value = data['stok'];
         document.getElementById('edit-harga').value = data['harga'];
-        document.getElementById('edit-kategori').value = data['kategori']['id'];
+        $('#edit-kategori').val(data['id_kategori']).trigger('change');;
         localStorage.setItem('data_id', id);
       });
     }
@@ -187,7 +187,7 @@ if(!localStorage.getItem("token")){
       document.getElementById('add-nama').value = "";
       document.getElementById('add-stok').value = ""
       document.getElementById('add-harga').value = "";
-      document.getElementById('add-kategori').value = "";
+      $('#add-kategori').val("").trigger('change');;
   }
   //Fungsi CRUD
   async function update() {

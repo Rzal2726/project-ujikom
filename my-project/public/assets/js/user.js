@@ -10,6 +10,7 @@ const endpoints = {
   editData: app_url+"/api/user/edit-data/",
   showData: app_url+"/api/user/show-data/",
   deleteData: app_url+"/api/user/delete-data/",
+  updatePass: app_url+"/api/user/update-pass",
 };
 
 let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
@@ -144,10 +145,10 @@ function updateTable() {
 
             <button 
               class="btn text-nowrap text-white btn-info edit-btn" 
-              onclick="editPass(${data.id})"
+              onclick="setPassId(${data.id})"
               data-id="${data.id}" 
               data-bs-toggle="modal" 
-              data-bs-target="#modalEdit">
+              data-bs-target="#modalEditPass">
               <i class="fa fa-key"></i> Ganti Password
             </button>
 
@@ -346,4 +347,38 @@ function updateLoginTable() {
         </tr>
     `;
   }
+}
+
+async function updatePass() {
+  const userId = document.getElementById('password-id').value;
+  const oldPass = document.getElementById('password-lama').value;
+  const newPass = document.getElementById('password-baru').value;
+
+  if (!oldPass || !newPass) {
+    return toastr.warning('Password lama dan baru harus diisi!');
+  }
+
+  try {
+    const response = await fetchData(endpoints.updatePass, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        old_password: oldPass,
+        new_password: newPass
+      })
+    });
+    toastr.info(response.message || 'Password berhasil diubah');
+  } catch (error) {
+    console.error('Error updating password:', error);
+    toastr.error('Terjadi kesalahan saat mengubah password');
+  }
+}
+
+
+function setPassId(id){
+  document.getElementById('password-id').value = id
 }

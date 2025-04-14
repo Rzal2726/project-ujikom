@@ -46,6 +46,7 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
     Route::get('show-data/{id}', [UserController::class, 'showData']);
     Route::get('get-login', [UserController::class, 'getLogin']);
     Route::get('get-level', [UserController::class, 'getLevel']);
+    Route::post('update-pass', [UserController::class, 'updatePassword']);
   });
 
 Route::middleware('auth:sanctum')->prefix('produk')->group(function () {
@@ -66,8 +67,9 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::delete('delete-data/{id}', [TransaksiController::class, 'deleteData']);
     Route::get('show-data/{id}', [TransaksiController::class, 'showData']);
     Route::get('excel', [TransaksiController::class, 'exportExcel']);
+    Route::post('pdf', [TransaksiController::class, 'exportPDF']);
+    Route::get('detail-pdf/{id}', [TransaksiController::class, 'exportDetailPDF']);
   });
-  Route::post('pdf', [TransaksiController::class, 'exportPDF']);
 
 Route::middleware('auth:sanctum')->prefix('other')->group(function () {
     Route::get('get-counter', [DashboardController::class, 'getCounter']);

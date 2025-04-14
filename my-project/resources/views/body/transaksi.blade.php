@@ -63,6 +63,58 @@
 </div>
 
 <!-- Edit Modal -->
+<div class="modal fade" id="modalProduk" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
+    aria-labelledby="modalTitleId" aria-hidden="true">
+    
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            
+            <!-- Modal Header -->
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title fw-bold" id="modalTitleId">Detail Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Form -->
+            <form>
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label for="inputName" class="form-label fw-semibold">Nama Barang</label>
+                        <input type="text" class="form-control rounded" id="barang-nama" name="name" placeholder="Enter Name" readonly> 
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputAlamat" class="form-label fw-semibold">Stok</label>
+                        <input type="number" class="form-control rounded" id="barang-stok" name="alamat" placeholder="Enter Address" readonly>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="inputAlamat" class="form-label fw-semibold">Harga</label>
+                        <div class="input-group">
+                            <span class="input-group-text border-end-0 bg-white">RP.</span>
+                            <input type="number" class="form-control border-start-0" id="barang-harga" name="no_hp" placeholder="Enter Price ( Examplpe: 5000 )" maxlength="11" required>
+                        </div>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="inputAlamat" class="form-label fw-semibold">Kategori</label>
+                        <input type="text" class="form-control rounded" id="barang-kategori" name="alamat" placeholder="Enter Address" readonly>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="" class="form-label">Gambar</label>
+                        <div id="barang-img"></div>
+                    </div>
+                    
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
 <div class="modal fade" id="modalEkspor" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
     aria-labelledby="modalTitleId" aria-hidden="true">
     
@@ -265,8 +317,14 @@
                 <div class="row g-4">
                     <!-- Produk Table -->
                     <div class="col-lg-6">
-                        <div class="card shadow-sm border-0 p-3 h-100">
-                            <div class="glass-table-container" id="produk-container">
+                        <div class="card shadow-sm border-0 p-3 h-100 d-flex justify-content-center row">
+                            <div class="input-group border-bottom rounded col-12" style=" width: 100%;">
+                                <input type="text" id="search-produk" class="form-control rounded-start border-0" placeholder="Cari Produk">
+                                <button class="btn btn-success rounded-end" onclick="searchProdukTable()">
+                                  <i class="fa fa-search"></i>
+                                </button>
+                              </div>
+                            <div class="glass-table-container m-2 col-12" id="produk-container">
                                 <table class="glass-table text-center" id="produk-card">
                                     <thead class="table-primary w-50">
                                         <tr>

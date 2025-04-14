@@ -19,7 +19,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form>
+            <form onsubmit="return add();">
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
@@ -63,7 +63,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form>
+            <form id="form-edit">
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label for="inputId" class="form-label fw-semibold">ID</label>
@@ -226,13 +226,13 @@
                 <div class="col-12 col-md-4">
                     <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
                         <div class="input-group border rounded-pill" style="max-width: 250px; width: 100%;">
-                            <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari">
+                            <input type="text" id="search" class="form-control rounded-start-pill border-0" placeholder="Cari Data Pelanggan">
                             <button class="btn btn-success rounded-end-pill" onclick="searchTable()">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
         
-                        <button class="btn btn-primary rounded w-auto" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                        <button class="btn btn-primary rounded w-auto" onclick="plus()" data-bs-toggle="modal" data-bs-target="#modalTambah">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>

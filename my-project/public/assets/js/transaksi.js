@@ -10,12 +10,13 @@ if(!localStorage.getItem("token")){
     showData: app_url+"/api/transaksi/show-data/",
     deleteData: app_url+"/api/transaksi/delete-data/",
     getProduk: app_url+"/api/produk/get-data",
+    searchProduk: app_url+"/api/produk/search-data",
     updateStok: app_url+"/api/produk/update-stok",
     getPelanggan: app_url+"/api/pelanggan/get-all"
   };
   
   let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
-  let DataProduk = [], currentProdukPage = 1;
+  let DataProduk = [], currentProdukPage = 1, isProdukFilter = false;
   let cart = {};
   let userProfile = JSON.parse(localStorage.getItem('user-data'))
   //initialize
@@ -70,6 +71,18 @@ if(!localStorage.getItem("token")){
     !isFilter && (currentPage = 1);
     isFilter = true;
     updateTable();
+    JsLoadingOverlay.hide();
+  }
+  async function searchProdukTable() {
+    JsLoadingOverlay.show({ "spinnerIcon": "ball-spin" });
+    const response = await fetchData(endpoints.searchProduk+"?page="+currentProdukPage, {
+        method: 'POST',
+        body: JSON.stringify({ search: document.getElementById('search-produk').value })
+    });
+    DataProduk = response.data;
+    !isProdukFilter && (currentProdukPage = 1);
+    isProdukFilter = true;
+    updateProdukTable();
     JsLoadingOverlay.hide();
   }
   
@@ -169,7 +182,7 @@ if(!localStorage.getItem("token")){
 
               <button 
                 class="btn text-nowrap btn-success export-btn" 
-                onclick="exportRiwayat(${data.id})"
+                onclick="exportDetailPdf(${data.id})"
                 data-id="${data.id}">
                 <i class="fa fa-file"></i> Ekspor
               </button>
@@ -202,7 +215,7 @@ if(!localStorage.getItem("token")){
         <tr>
         <td>${index+1+startIndex}</td>
         <td>${data.nama_barang}</td>
-        <td>${data.harga}</td>
+        <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
         <td>${data.stok}</td>
         <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
@@ -470,6 +483,7 @@ async function sendTransaction(){
   }
   await saveTransaction()
   await saveCart()
+  cartReset()
   document.getElementById("table").scrollIntoView({
     behavior: "smooth"  // pakai "auto" kalau mau tanpa animasi
 });
@@ -478,6 +492,10 @@ async function sendTransaction(){
 function cartReset(){
   cart = {}
   document.getElementById('total-harga').value = ""
+  document.getElementById('add-daftar-produk').value = ""
+  document.getElementById('form-tanggal').value = ""
+  document.getElementById('add-pelanggan').value = ""
+  $('#add-pelanggan').val("").trigger('change');
 }
 
 function exportExcel() {
@@ -512,7 +530,7 @@ function exportPdf() {
   const endDate = document.getElementById('enddate').value;
 
   // Send a POST request to the controller's exportPDF method
-  fetch(app_url + '/api/pdf', {
+  fetch(app_url + '/api/transaksi/pdf', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -537,6 +555,38 @@ function exportPdf() {
       const url = window.URL.createObjectURL(blob);
       link.href = url;
       link.download = 'report ('+startDate+' - '+endDate+').pdf'; // Set default filename
+      link.click(); // Trigger the download
+      window.URL.revokeObjectURL(url); // Clean up the object URL
+  })
+  .catch(error => {
+      // Handle error
+      console.error('Error exporting PDF:', error);
+  });
+}
+
+function exportDetailPdf(id) {
+  // Send a POST request to the controller's exportPDF method
+  fetch(app_url + '/api/transaksi/detail-pdf/'+id, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'), // Get token from localStorage
+          // Optionally, add CSRF token here if needed for Laravel (uncomment if needed):
+          // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to fetch PDF');
+      }
+      return response.blob(); // Convert response to a Blob (PDF)
+  })
+  .then(blob => {
+      // Create a link element to download the PDF
+      const link = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      link.href = url;
+      link.download = 'report.pdf'; // Set default filename
       link.click(); // Trigger the download
       window.URL.revokeObjectURL(url); // Clean up the object URL
   })

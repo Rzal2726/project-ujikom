@@ -46,11 +46,11 @@
                 <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isKategori) && $isKategori])>
                     <a class="nav-link text-dark fw-semibold" href="{{ route('kategori-screen') }}"><i class="fa fa-list-alt"></i> Kategori</a>
                 </li>
-                <li @class(['navItem nav-item rounded']) id="level-nav">
+                {{-- <li @class(['navItem nav-item rounded']) id="level-nav">
                     <a class="nav-link text-dark fw-semibold" href=""><i class="fa fa-gavel"></i> Level</a>
-                </li>
+                </li> --}}
                 <li @class([
-                    'navItem nav-item rounded',
+                    'navItem nav-item rounded d-none',
                     'border shadow' => !empty($isUser) && $isUser,
                 ]) id="user-nav">
                     <a class="nav-link text-dark fw-semibold" href="{{ route('user-screen') }}">

@@ -123,6 +123,22 @@ class TransaksiController extends Controller
     $pdf = Pdf::loadView('component.pdf', compact('data'));
 
     // Return the PDF as a stream (open in browser)
-    return $pdf->stream('report.pdf');
+    return $pdf->stream('component.pdf');
+}
+
+    public function exportDetailPDF($id)
+{
+    
+    $transaksi = Transaksi::with(['user','pelanggan'])
+                        ->where('id', $id)
+                        ->first(); // Example model data
+
+    // Prepare data to pass to the PDF view
+
+    // Load a Blade view and pass the data to it
+    $pdf = Pdf::loadView('component.kwitansi', compact('transaksi'));
+
+    // Return the PDF as a stream (open in browser)
+    return $pdf->stream('component.kwitansi');
 }
 }

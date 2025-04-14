@@ -194,8 +194,6 @@
                     document.getElementById('profil-name').value = user_profile['name']
                     document.getElementById('profil-email').value = user_profile['email']
                     if(user_profile.level_id != 2){
-                        document.getElementById('user-nav').classList.add('d-none');
-                        document.getElementById('level-nav').classList.add('d-none');
                         
                         // Ini untuk halaman home-screen
                         @if ($currentRoute === 'home-screen')
@@ -204,10 +202,11 @@
                             userCard.classList.add('d-none');
                         }
                         @endif
+                    }else{
+                        document.getElementById('user-nav').classList.remove('d-none');
                     }
                 })
                 .catch(error => {
-                    // window.location.href = app_url + "/"; // force logout
                     console.log(error)
                 });
             }
@@ -233,5 +232,6 @@
         </script>
 
         @yield('script')
+
     </body>
 </html>

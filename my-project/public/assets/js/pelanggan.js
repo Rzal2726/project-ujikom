@@ -1,7 +1,6 @@
 if(!localStorage.getItem("token")){
     window.location.href= app_url+'/auth/login';
   }
-  
   const endpoints = {
     getData: app_url+"/api/pelanggan/get-data",
     searchData: app_url+"/api/pelanggan/search-data",
@@ -18,6 +17,7 @@ if(!localStorage.getItem("token")){
     dataTable()
     // statusSelect()
   }
+  
   
   //Get Data dari Api
   async function fetchData(url, options = {}) {

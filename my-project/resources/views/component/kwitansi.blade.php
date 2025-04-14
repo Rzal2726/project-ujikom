@@ -139,30 +139,27 @@
 <body>
     <header>
         <h1>Laporan Transaksi</h1>
-        <h2>Periode: {{ $data['period'] }}</h2>
+        <h2>Tanggal: {{ $transaksi['tanggal'] }}</h2>
     </header>
     
     <main class="container">
-        @foreach($data['data'] as $item)
         <div class="card">
-            <p><strong>Tanggal      :</strong> {{ $item->tanggal }}</p>
-            <p><strong>Pelanggan    :</strong> {{ $item->pelanggan?->nama ?? 'Guest' }}</p>
+            <p><strong>Pelanggan    :</strong> {{ $transaksi->pelanggan?->nama ?? 'Guest' }}</p>
 
             <!-- Daftar Produk Section -->
             <p><strong>Daftar Produk:</strong></p>
             <div class="product-list">
-                @foreach(explode(',', $item->daftar_produk) as $product)
+                @foreach(explode(',', $transaksi->daftar_produk) as $product)
                     <div class="product">
                         <span>{{ $product }}</span>
                     </div>
                 @endforeach
             </div>
 
-            <p><strong>Total Harga  :</strong> RP.{{ number_format($item->harga, 0, ',', '.') }}</p>
-            <p><strong>Admin        :</strong> {{ $item->user?->name ?? 'Admin' }}</p>
+            <p><strong>Total Harga  :</strong> RP.{{ number_format($transaksi->harga, 0, ',', '.') }}</p>
+            <p><strong>Admin        :</strong> {{ $transaksi->user?->name ?? 'Admin' }}</p>
 
         </div>
-        @endforeach
     </main>
     
     <footer>

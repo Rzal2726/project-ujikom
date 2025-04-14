@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LoginCounter;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isEmpty;
@@ -129,4 +130,22 @@ class UserController extends Controller
             'data' => $data,
         ], 200);
     }
+
+    public function updatePassword(Request $request)
+{
+    $user = User::find($request->user_id);
+
+    if (!Hash::check($request->old_password, $user->password)) {
+        return response()->json([
+            'message' => 'Old password is incorrect.'
+        ], 400);
+    }
+
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return response()->json([
+        'message' => 'Password updated successfully.'
+    ]);
+}
 }

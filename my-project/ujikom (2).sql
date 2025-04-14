@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 01:00 PM
+-- Generation Time: Apr 14, 2025 at 04:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,7 +31,7 @@ CREATE TABLE `barang` (
   `id` int(11) NOT NULL,
   `nama_barang` varchar(255) NOT NULL DEFAULT 'Dummy',
   `stok` int(11) NOT NULL,
-  `kategori` varchar(255) DEFAULT 'Dummy',
+  `id_kategori` int(255) DEFAULT 1,
   `harga` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,13 +39,18 @@ CREATE TABLE `barang` (
 -- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`id`, `nama_barang`, `stok`, `kategori`, `harga`) VALUES
-(1, 'Dummy', 2, 'Dummy', 5000),
-(2, 'Bagasss', 115, 'Budakk', 100000),
-(3, '123123', 9, 'Budak', 123123),
-(4, '123123', 9, 'Budak', 123123),
-(5, '123123', 11, 'Budak', 123123),
-(6, '123123', 12, 'Budak', 123123);
+INSERT INTO `barang` (`id`, `nama_barang`, `stok`, `id_kategori`, `harga`) VALUES
+(7, 'Kabel HDMI', 2, 1, 25000),
+(8, 'HDD 250GB', 0, 7, 60000),
+(9, 'i6 5500X', 3, 4, 320000),
+(10, 'RZ 7700XT', 7, 3, 3200000),
+(11, '16GB Kit DDR2', 6, 8, 350000),
+(12, 'A9 9600', 9, 4, 960000),
+(13, 'SSD NVME 128GB', 10, 7, 110000),
+(14, 'PSU 400W 80+ Bronze', 9, 6, 390000),
+(15, 'PSU 550W 80+ Bronze', 9, 6, 590000),
+(16, 'Kabel VGA', 9, 1, 50000),
+(17, 'LGA 1150', 10, 5, 50000);
 
 -- --------------------------------------------------------
 
@@ -125,6 +130,30 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kategori`
+--
+
+CREATE TABLE `kategori` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`id`, `nama`) VALUES
+(1, 'Aksesoris'),
+(3, 'VGA'),
+(4, 'Processor'),
+(5, 'Motherboard'),
+(6, 'Power Supply'),
+(7, 'Storage'),
+(8, 'RAM');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `login_counter`
 --
 
@@ -142,7 +171,19 @@ CREATE TABLE `login_counter` (
 INSERT INTO `login_counter` (`id`, `id_user`, `tanggal`, `ip`) VALUES
 (1, 2, '2025-04-08', '127.0.0.1'),
 (2, 2, '2025-04-09', '127.0.0.1'),
-(3, 3, '2025-04-09', '127.0.0.1');
+(3, 3, '2025-04-09', '127.0.0.1'),
+(4, 3, '2025-04-13', '127.0.0.1'),
+(5, 3, '2025-04-13', '127.0.0.1'),
+(6, 3, '2025-04-13', '127.0.0.1'),
+(7, 3, '2025-04-13', '127.0.0.1'),
+(8, 3, '2025-04-13', '127.0.0.1'),
+(9, 3, '2025-04-13', '127.0.0.1'),
+(10, 2, '2025-04-14', '127.0.0.1'),
+(11, 2, '2025-04-14', '127.0.0.1'),
+(12, 2, '2025-04-14', '127.0.0.1'),
+(13, 2, '2025-04-14', '127.0.0.1'),
+(14, 3, '2025-04-14', '127.0.0.1'),
+(15, 2, '2025-04-14', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -196,20 +237,9 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`id`, `nama`, `no_telp`, `alamat`) VALUES
-(1, 'Rizal2222', '831165497662', 'Bunisari'),
-(5, 'jQZXrZPA2x', 'QrlNWrmQzkDd', 'lMRpWnH6BfQeOyNydGiBndYgDG31Td'),
-(6, '032ngocirs', 'F8PeWppvmxNp', 'Mtk5XpAEenHcl8RMFHsECtzkyyNXHg'),
-(7, '3ih5MhlT2B', '4uMKerMlsWzX', 'v2QimrJltPgFkmMmrpNFdqKSHEZxPw'),
-(8, 't6itby7RRc', 'j4lU0QnCaseq', 'PXbHxBhqWCJfRue2H859vgOT8AKE6C'),
-(9, 'WifnZ3lLC0', 'qQzYQXi4W8K4', '70fqetJvSghx7k51jAwXWAnE2QptqB'),
-(10, 'A8iV1NVLRg', 'S6b9V4ezAJso', 'ltLmlS8fLfltTE62OcxzIr0yLSJW4u'),
-(11, 'ifhdBfnaAg', 'ZxoP0dhPD7gq', '4e0BS0cFOeiXrpWeT550Ss1v3W4V9Z'),
-(12, 'fY2lcq2NCk', 'Nfsznrpb6XUo', '5hc1qvl5jQ7JEgOwVIpPY7HlNrZVzG'),
-(13, 'WyDzeS7eJL', 'aerLHjXxdhRN', '9Ce3xuNBg58e7lxWiiTTIrJlKbZBbB'),
-(14, 'A52bCkzY4s', 'z2WPboG6033u', 'RfcR0Mpwpg5fwnWwjmhpzu5Q0x5Bmf'),
-(15, 'vPXcJeaD9E', 'dQvtmIMJOTHu', 'Cd4vjLeqH16DsLa6xbX3WYDajaHgmQ'),
-(16, 'aftAxCDXUW', 'lEE4e0xPNU0Y', '1kWk3DJC3BjBLeLmQcwYyupkpKoZUf'),
-(17, 'EhRX8HsaDC', 'vq7lRtFvrsyX', 'vYbIA9N5jPJE94WHL2DDyADTYFUjVQ');
+(18, 'Rizal Firdaus', '83116549766', 'Jl. Pesantren Bunisari, RT05/RW05, Desa Gadobangkong, Kecamatan Ngamprah'),
+(19, 'Bagas Dwi P', '87784933073', 'Baros'),
+(21, 'John Doe', '12345678910', '1234 Elm Street, Somewhere, CA, 90210');
 
 -- --------------------------------------------------------
 
@@ -237,7 +267,10 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (15, 'App\\Models\\User', 2, 'API Token', '6f612ab1cd706279a6955082c22276c54e0871cd15c47d67ceda24566d528531', '[\"*\"]', '2025-04-07 07:01:08', NULL, '2025-04-07 05:13:16', '2025-04-07 07:01:08'),
 (17, 'App\\Models\\User', 2, 'API Token', '2ff508904bf6b6887e44f66628268b641c8f3b86644a2e282379e57584740e15', '[\"*\"]', '2025-04-07 21:39:19', NULL, '2025-04-07 20:59:36', '2025-04-07 21:39:19'),
-(19, 'App\\Models\\User', 3, 'API Token', '22271d4ec843c16a75fbcd27dfec2cdf032e3052a124920d93295e73bfaf29e3', '[\"*\"]', '2025-04-09 03:59:15', NULL, '2025-04-09 03:59:11', '2025-04-09 03:59:15');
+(19, 'App\\Models\\User', 3, 'API Token', '22271d4ec843c16a75fbcd27dfec2cdf032e3052a124920d93295e73bfaf29e3', '[\"*\"]', '2025-04-09 03:59:15', NULL, '2025-04-09 03:59:11', '2025-04-09 03:59:15'),
+(20, 'App\\Models\\User', 3, 'API Token', '0bc9568c698f43ba73be558de636340c3b8ffa41acbd8f1bdc3374369232e452', '[\"*\"]', '2025-04-13 03:08:58', NULL, '2025-04-13 03:04:10', '2025-04-13 03:08:58'),
+(21, 'App\\Models\\User', 3, 'API Token', '371f96de668a6784c3002f9ecb243aea41d9eaed839ffa406b0b9c4dbe56b4ef', '[\"*\"]', '2025-04-13 03:09:24', NULL, '2025-04-13 03:09:04', '2025-04-13 03:09:24'),
+(31, 'App\\Models\\User', 2, 'API Token', 'd06fb922558dac97cecea4fe95bdbf03ba662dcfed9922bab8603ff753ed231e', '[\"*\"]', '2025-04-14 07:13:13', NULL, '2025-04-14 07:13:09', '2025-04-14 07:13:13');
 
 -- --------------------------------------------------------
 
@@ -259,9 +292,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1GNuBHTr0R8zEW1cdfhqk3kShoG06MyXUpwmR1NT', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZVl0b0V0NzFBTjh6c2xGanlqbzdaTzV0R2RpUFdhUGR0Wkw1cW5PSyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQvdHJhbnNha3NpIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1744034465),
-('MgX2edaV9yPXQxlAvl7ADAFNQZmGeZHUdjiRBi2n', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUU41QXJKTnAyQ3p3eTA1bTBFUWxscGt3ekJSWkxaazBDc2VrVTJiNiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO319', 1744196351),
-('rqx79YrRvNIDG4z5l4b2btGnh0XUwG8G3VZHkM2Y', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 OPR/117.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicnplQVM3TERMZUFHTXNzQlhMNUhBdmhUck0wRUlTWDI1MHA5aFlGbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQvdHJhbnNha3NpIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1744087156);
+('VzSV617d01F2DfAEp4ttqtdJKsjfzx18yc6TcIRG', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 OPR/117.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibG5XQ1JZOUtqU1hRSlFmbU8ybkd5ZjkxamJtWFNJZ2FTN2hqeWpUcSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1744639990);
 
 -- --------------------------------------------------------
 
@@ -283,8 +314,11 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id`, `harga`, `daftar_produk`, `tanggal`, `id_pelanggan`, `id_admin`) VALUES
-(1, '90000', 'NO', '2025-04-01', 1, 2),
-(2, '351246', 'Dummy | Qty: 1 | Harga: Rp 5.000 | Total: Rp 5.000\nBagasss | Qty: 1 | Harga: Rp 100.000 | Total: Rp 100.000\n123123 | Qty: 1 | Harga: Rp 123.123 | Total: Rp 123.123\n123123 | Qty: 1 | Harga: Rp 123.123 | Total: Rp 123.123', '2025-04-07', 1, 2);
+(12, '3930000', 'HDD 250GB | Qty: 1 | Harga: Rp 60.000 | Total: Rp 60.000 ,\ni6 5500X | Qty: 1 | Harga: Rp 320.000 | Total: Rp 320.000 ,\nRZ 7700XT | Qty: 1 | Harga: Rp 3.200.000 | Total: Rp 3.200.000 ,\n16GB Kit DDR2 | Qty: 1 | Harga: Rp 350.000 | Total: Rp 350.000 ,', '2025-04-14', 18, 2),
+(13, '5060000', 'RZ 7700XT | Qty: 1 | Harga: Rp 3.200.000 | Total: Rp 3.200.000 ,\n16GB Kit DDR2 | Qty: 1 | Harga: Rp 350.000 | Total: Rp 350.000 ,\nA9 9600 | Qty: 1 | Harga: Rp 960.000 | Total: Rp 960.000 ,\nSSD NVME 128GB | Qty: 1 | Harga: Rp 110.000 | Total: Rp 110.000 ,\nPSU 400W 80+ Bronze | Qty: 1 | Harga: Rp 390.000 | Total: Rp 390.000 ,\nKabel VGA | Qty: 1 | Harga: Rp 50.000 | Total: Rp 50.000 ,', '2025-04-12', 19, 2),
+(15, '25000', 'Kabel HDMI | Qty: 1 | Harga: Rp 25.000 | Total: Rp 25.000 ,', '2025-04-14', 18, 2),
+(16, '1070000', 'A9 9600 | Qty: 1 | Harga: Rp 960.000 | Total: Rp 960.000 ,\nSSD NVME 128GB | Qty: 1 | Harga: Rp 110.000 | Total: Rp 110.000 ,', '2025-04-14', 19, 3),
+(17, '590000', 'PSU 550W 80+ Bronze | Qty: 1 | Harga: Rp 590.000 | Total: Rp 590.000 ,', '2025-04-14', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -309,8 +343,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `level_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Rizal123', 'rizal2726f@gmail.com', 2, NULL, '$2y$12$EwZaTBYBUlsihbFd0Dztne7BV08lovirIunoCac9o9fohw0sSfBM6', NULL, '2025-04-06 22:07:04', '2025-04-07 04:19:00'),
-(3, 'Atmin', 'bagas@example.com', 1, NULL, '$2y$12$XKKh/Oaye41bbuu9rKjHDO0Weu5lH3McT6ZF5eL2wD9Cx50fIPJ92', NULL, '2025-04-09 03:57:37', '2025-04-09 03:57:37');
+(2, 'Rizal', 'rizal2726f@gmail.com', 2, NULL, '$2y$12$11wgdMyp0Q548rsSdZBmR.cPP5wz4qXXU38xVMkRiwjl1XUvO0/pS', NULL, '2025-04-06 22:07:04', '2025-04-14 05:42:43'),
+(3, 'Admin', 'bagas@example.com', 1, NULL, '$2y$12$XKKh/Oaye41bbuu9rKjHDO0Weu5lH3McT6ZF5eL2wD9Cx50fIPJ92', NULL, '2025-04-09 03:57:37', '2025-04-13 21:52:49');
 
 -- --------------------------------------------------------
 
@@ -371,6 +405,12 @@ ALTER TABLE `jobs`
 -- Indexes for table `job_batches`
 --
 ALTER TABLE `job_batches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `kategori`
+--
+ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -441,7 +481,7 @@ ALTER TABLE `user_level`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -456,10 +496,16 @@ ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `login_counter`
 --
 ALTER TABLE `login_counter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -471,19 +517,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`

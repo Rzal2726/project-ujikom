@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Produk;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
@@ -95,16 +96,33 @@ class ProdukController extends Controller
 
     public function updateStok(Request $request){
         $cart = $request->cart;
-
+    
+    // Start a database transaction
+    DB::beginTransaction();
+    
+    try {
         foreach ($cart as $id => $item) {
-            $produk = Barang::find($id);
+            // Using pessimistic locking to ensure no other process can update the same product
+            $produk = Barang::where('id', $id)->lockForUpdate()->first();
+            
             if ($produk && $produk->stok >= $item['qty']) {
                 $produk->stok -= $item['qty'];
                 $produk->save();
+            } else {
+                // If stock is not sufficient or product not found, throw an error
+                throw new \Exception("Stock is not sufficient for product ID: $id");
             }
         }
-
+        
+        // If all updates are successful, commit the transaction
+        DB::commit();
+        
         return response()->json(['message' => 'Stok Updated']);
-
+    } catch (\Exception $e) {
+        // If there's an error, rollback the transaction
+        DB::rollBack();
+        
+        return response()->json(['error' => $e->getMessage()], 400);
+    }
     }
 }
