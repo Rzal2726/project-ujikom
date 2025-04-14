@@ -3,7 +3,7 @@
     <head>
         <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/favicon.svg') }}">
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/svg+xml">
-        <title>RL Manager - Dashboard</title>
+        <title>TechSector - Dashboard</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -123,7 +123,7 @@
             <div class="container">
                 <div class="row text-center text-md-start align-items-center">
                     <div class="col-md-4 mb-3 mb-md-0">
-                        <h5 class="fw-bold">RL Products Manager</h5>
+                        <h5 class="fw-bold">TechSector</h5>
                         <p class="mb-0 small">Building the future, one line of code at a time.</p>
                     </div>
     
@@ -140,7 +140,7 @@
                 </div>
     
                 <div class="border-top mt-3 pt-3 text-center small">
-                    &copy; 2025 RL Content Manager. All rights reserved.
+                    &copy; 2025 TechSector. All rights reserved.
                 </div>
             </div>
         </footer>
@@ -190,10 +190,12 @@
                 })
                 .then(data => {
                     user_profile = data.user;  // store user data
+                    localStorage.setItem('user-data', JSON.stringify(user_profile))
                     document.getElementById('profil-name').value = user_profile['name']
                     document.getElementById('profil-email').value = user_profile['email']
                     if(user_profile.level_id != 2){
                         document.getElementById('user-nav').classList.add('d-none');
+                        document.getElementById('level-nav').classList.add('d-none');
                         
                         // Ini untuk halaman home-screen
                         @if ($currentRoute === 'home-screen')

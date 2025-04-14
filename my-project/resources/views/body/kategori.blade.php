@@ -25,23 +25,6 @@
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
                         <input type="text" class="form-control rounded" id="add-nama" name="name" placeholder="Enter Name" required autofocus>
                     </div>
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Stok*</label>
-                        <input type="number" class="form-control rounded" id="add-stok" name="stok" placeholder="Enter Stock" required>
-                    </div>     
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Harga*</label>
-                        <div class="input-group">
-                            <span class="input-group-text border-end-0 bg-white">RP.</span>
-                            <input type="number" class="form-control border-start-0" id="add-harga" name="harga" placeholder="Enter Price ( Example: 5000 )" maxlength="11" required>
-                        </div>
-                    </div>     
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Kategori*</label>
-                        <select name="" id="add-kategori" class="form-control rounded">
-                            <option value="">Pilih Kategori</option>
-                        </select>
-                    </div>     
                 </div>
 
                 <!-- Modal Footer -->
@@ -78,24 +61,7 @@
                     <div class="mb-3">
                         <label for="inputName" class="form-label fw-semibold">Name*</label>
                         <input type="text" class="form-control rounded" id="edit-nama" name="name" placeholder="Enter Name" required autofocus> 
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Stok*</label>
-                        <input type="number" class="form-control rounded" id="edit-stok" name="alamat" placeholder="Enter Stock" required>
-                    </div>     
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Harga*</label>
-                        <div class="input-group">
-                            <span class="input-group-text border-end-0 bg-white">RP.</span>
-                            <input type="number" class="form-control border-start-0" id="edit-harga" name="no_hp" placeholder="Enter Price ( Examplpe: 5000 )" maxlength="11" required>
-                        </div>
-                    </div>     
-                    <div class="mb-3">
-                        <label for="inputAlamat" class="form-label fw-semibold">Kategori*</label>
-                        <select name="" id="edit-kategori" class="form-control rounded">
-                            <option value="">Pilih Kategori</option>
-                        </select>
-                    </div>     
+                    </div>  
                 </div>
 
                 <!-- Modal Footer -->
@@ -232,7 +198,7 @@
         <div class="card-header bg-light p-4">
             <div class="row align-items-center g-3">
                 <div class="col-12 col-md-8 text-center text-md-start">
-                    <h4 class="mb-0 text-nowrap">Data Produk</h4>
+                    <h4 class="mb-0 text-nowrap">Data Pelanggan</h4>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-end align-items-center gap-2">
@@ -258,11 +224,8 @@
                     <thead class="table-primary">
                         <tr>
                             <th class="w-10">NO</th>
-                            <th class="w-20">PRODUK</th>
-                            <th class="w-20">STOK</th>
-                            <th class="w-20">HARGA</th>
-                            <th class="w-20">KATEGORI</th>
-                            <th class="w-10">AKSI</th>
+                            <th class="w-25">NAMA</th>
+                            <th class="w-15">AKSI</th>
                         </tr>
                     </thead>
                     <tbody id="table">
@@ -293,17 +256,10 @@
     $('#edit-no').on('input', function() {
     this.value = this.value.replace(/[^0-9]/g, '');
     });
+    $('#add-no').on('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    });
     $(function() {
-        $("#add-kategori").select2({
-            placeholder: "Pilih Kategori",
-            theme: "bootstrap4",
-            dropdownParent: $('#modalTambah')
-        });
-        $("#edit-kategori").select2({
-            placeholder: "Pilih Kategori",
-            theme: "bootstrap4",
-            dropdownParent: $('#modalEdit')
-        });
         $("#draggable-card").draggable({
             handle: ".card-header", // only drag from header
             containment: ".wrapper"
@@ -318,5 +274,5 @@
         console.log("Bootstrap Modal Test:", bootstrap?.Modal ? "Loaded" : "Not Loaded");
     });
 </script>
-<script src="{{asset("/assets/js/produk.js")}}" defer></script>
+<script src="{{asset("/assets/js/kategori.js")}}" defer></script>
 @endsection

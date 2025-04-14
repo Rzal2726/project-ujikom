@@ -1,7 +1,7 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
+    <div class="container-fluid px-0 mx-1">
         <!-- Brand -->
         {{-- <img src="{{asset("/assets/images/logo.png")}}" class="img-fluid" style="max-width: 10%;" alt="logo"> --}}
         <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -43,8 +43,11 @@
                 <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isProduk) && $isProduk])>
                     <a class="nav-link text-dark fw-semibold" href="{{ route('produk-screen') }}"><i class="fa fa-archive"></i> Produk</a>
                 </li>
-                <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isProduk) && $isProduk])>
-                    <a class="nav-link text-dark fw-semibold" href="{{ route('produk-screen') }}"><i class="fa fa-list-alt"></i> Kategori</a>
+                <li @class(['navItem nav-item rounded', 'border shadow' => !empty($isKategori) && $isKategori])>
+                    <a class="nav-link text-dark fw-semibold" href="{{ route('kategori-screen') }}"><i class="fa fa-list-alt"></i> Kategori</a>
+                </li>
+                <li @class(['navItem nav-item rounded']) id="level-nav">
+                    <a class="nav-link text-dark fw-semibold" href=""><i class="fa fa-gavel"></i> Level</a>
                 </li>
                 <li @class([
                     'navItem nav-item rounded',

@@ -67,6 +67,7 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::get('show-data/{id}', [TransaksiController::class, 'showData']);
     Route::get('excel', [TransaksiController::class, 'exportExcel']);
   });
+  Route::post('pdf', [TransaksiController::class, 'exportPDF']);
 
 Route::middleware('auth:sanctum')->prefix('other')->group(function () {
     Route::get('get-counter', [DashboardController::class, 'getCounter']);

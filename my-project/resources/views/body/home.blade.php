@@ -418,7 +418,7 @@
                                     <tr>
                                         <th>NO</th>
                                         <th>NAMA</th>
-                                        <th>EMAIL</th>
+                                        <th>IP</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-user">

@@ -62,6 +62,59 @@
     </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade" id="modalEkspor" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
+    aria-labelledby="modalTitleId" aria-hidden="true">
+    
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            
+            <!-- Modal Header -->
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title fw-bold" id="modalTitleId">Ekspor Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Form -->
+            <form>
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Tanggal Awal</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            name=""
+                            id="startdate"
+                            aria-describedby="helpId"
+                            placeholder=""
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Tanggal Akhir</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            name=""
+                            id="enddate"
+                            aria-describedby="helpId"
+                            placeholder=""
+                        />
+                    </div>
+                    
+                    
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="exportPdf()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('content')
 <style>
@@ -288,8 +341,8 @@
                       </div>
                   
                       <!-- Export Button -->
-                      <button class="btn btn-success rounded-pill text-nowrap" onclick="exportExcel()">
-                        <i class="fa fa-download"></i> Export
+                      <button class="btn btn-success rounded-pill text-nowrap" data-bs-toggle="modal" data-bs-target="#modalEkspor">
+                        <i class="fa fa-file"></i> Ekspor
                       </button>
                   
                     </div>

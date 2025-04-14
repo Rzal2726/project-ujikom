@@ -23,4 +23,7 @@ class Controller extends controllers
     public function TransaksiScreen(){
         return view('body.transaksi')->with('isTransaksi',true);
     }
+    public function KategoriScreen(){
+        return view('body.kategori')->with('isKategori',true);
+    }
 }

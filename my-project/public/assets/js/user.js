@@ -143,6 +143,15 @@ function updateTable() {
             </button>
 
             <button 
+              class="btn text-nowrap text-white btn-info edit-btn" 
+              onclick="editPass(${data.id})"
+              data-id="${data.id}" 
+              data-bs-toggle="modal" 
+              data-bs-target="#modalEdit">
+              <i class="fa fa-key"></i> Ganti Password
+            </button>
+
+            <button 
               class="btn text-nowrap btn-danger delete-btn" 
               onclick="del(${data.id})"
               data-id="${data.id}">
@@ -245,7 +254,7 @@ async function add(){
 }
 
 async function LoginTable() {
-  const response = await fetchData(endpoints.getLogin+"?page="+currentPage, {
+  const response = await fetchData(endpoints.getLogin+"?page="+currentLoginPage, {
     method: "GET", 
   });
   LoginData = response.data;
@@ -275,7 +284,7 @@ function showLoginPagination() {
   let screenWidth = window.innerWidth;
   let visiblePages = screenWidth < 576 ? 1 : 7; // Jika layar kecil, tampilkan 3 tombol, jika besar, tampilkan 7 tombol
 
-  let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+  let startPage = Math.max(1, currentLoginPage - Math.floor(visiblePages / 2));
   let endPage = Math.min(totalPages, startPage + visiblePages - 1);
 
   if (endPage - startPage + 1 < visiblePages) {
@@ -320,7 +329,7 @@ function updateLoginTable() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = LoginData.data;
   
-  showPagination();
+  showLoginPagination();
   document.getElementById('count-login').textContent = `Page ${currentLoginPage} of ${totalPages} | Showing ${currentItems.length} item(s)`;
   document.getElementById('table-login').innerHTML = currentItems.map((data, index) => `
       <tr>

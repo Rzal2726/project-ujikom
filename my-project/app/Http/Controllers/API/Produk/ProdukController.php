@@ -19,10 +19,13 @@ class ProdukController extends Controller
     public function searchData(Request $request){
         $data = Barang::orderBy('id','asc')->with(['kategori']);
         if($request->has('search')){
-            $data->where('nama_barang','like','%'.$request->search.'%')
-            ->orWhere('stok','like','%'.$request->search.'%')
-            ->orWhere('harga','like','%'.$request->search.'%')
-            ->orWhere('kategori','like','%'.$request->search.'%');
+            $search = $request->search;
+            $data->where(function ($query) use ($search) {
+                $query->whereHas('kategori', fn($q) => $q->where('nama', 'like', "%$search%"))
+                ->orwhere('nama_barang','like','%'.$search.'%')
+                ->orWhere('harga','like','%'.$search.'%')
+                ->orWhere('stok','like','%'.$search.'%');
+            });
         }
         return response()->json([
             'message' => 'berhasil mendapatkan data',
@@ -35,7 +38,7 @@ class ProdukController extends Controller
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
             'harga' => $request->harga,
-            'kategori' => $request->kategori,
+            'id_kategori' => $request->kategori,
         ]);
         if(!$data){
             return response()->json([
@@ -66,7 +69,7 @@ class ProdukController extends Controller
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
             'harga' => $request->harga,
-            'kategori' => $request->kategori,
+            'id_kategori' => $request->kategori,
         ]);
         if(!$data){
             return response()->json([

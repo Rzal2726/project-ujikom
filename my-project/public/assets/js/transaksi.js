@@ -17,6 +17,7 @@ if(!localStorage.getItem("token")){
   let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
   let DataProduk = [], currentProdukPage = 1;
   let cart = {};
+  let userProfile = JSON.parse(localStorage.getItem('user-data'))
   //initialize
   initialize()
   async function initialize(){
@@ -152,7 +153,7 @@ if(!localStorage.getItem("token")){
         <td>${index+1+startIndex}</td>
         <td>${data.pelanggan?.nama ?? 'Guest'}</td>
         <td>${data.user['name'] ?? '-'}</td>
-        <td>${data.daftar_produk.slice(0, 20)}</td>
+        <td>${data.daftar_produk.slice(0, 20)}...</td>
         <td>${new Date(data.tanggal).toLocaleDateString('en-GB')}</td>
         <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
         <td class="d-flex justify-content-center">
@@ -167,7 +168,13 @@ if(!localStorage.getItem("token")){
               </button>
 
               <button 
-                class="btn text-nowrap btn-danger delete-btn" 
+                class="btn text-nowrap btn-success export-btn" 
+                onclick="exportRiwayat(${data.id})"
+                data-id="${data.id}">
+                <i class="fa fa-file"></i> Ekspor
+              </button>
+              <button 
+                class="btn text-nowrap btn-danger delete-btn ${userProfile['level_id'] == 1 ? 'd-none' : ''}" 
                 onclick="del(${data.id})"
                 data-id="${data.id}">
                 <i class="fa fa-trash"></i> Hapus
@@ -231,7 +238,7 @@ if(!localStorage.getItem("token")){
         const data = response.data;
         console.log(data)
         document.getElementById('detail-id').value = data['id'];
-        document.getElementById('detail-pelanggan').value = data['pelanggan']['nama'];
+        document.getElementById('detail-pelanggan').value = data.pelanggan?.nama ?? 'Guest';
         document.getElementById('detail-admin').value = data['user']['name'];
         document.getElementById('detail-harga').value = data['harga'];
         document.getElementById('detail-tanggal').value = data['tanggal'];
@@ -365,7 +372,7 @@ function toggleButton(id) {
   
       for (const id in cart) {
           const item = cart[id];
-          output += `${item.name} | Qty: ${item.qty} | Harga: ${formatRupiah(item.price)} | Total: ${formatRupiah(item.total)}\n`;
+          output += `${item.name} | Qty: ${item.qty} | Harga: ${formatRupiah(item.price)} | Total: ${formatRupiah(item.total)} ,\n`;
       }
   
       document.getElementById('add-daftar-produk').value = output || 'Keranjang kosong';
@@ -496,5 +503,45 @@ function exportExcel() {
   })
   .catch(error => {
     console.error('Error exporting file:', error);
+  });
+}
+
+function exportPdf() {
+  // Getting the start and end dates from input fields (example)
+  const startDate = document.getElementById('startdate').value;
+  const endDate = document.getElementById('enddate').value;
+
+  // Send a POST request to the controller's exportPDF method
+  fetch(app_url + '/api/pdf', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'), // Get token from localStorage
+          // Optionally, add CSRF token here if needed for Laravel (uncomment if needed):
+          // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({
+          startdate: startDate,
+          enddate: endDate
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to fetch PDF');
+      }
+      return response.blob(); // Convert response to a Blob (PDF)
+  })
+  .then(blob => {
+      // Create a link element to download the PDF
+      const link = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      link.href = url;
+      link.download = 'report ('+startDate+' - '+endDate+').pdf'; // Set default filename
+      link.click(); // Trigger the download
+      window.URL.revokeObjectURL(url); // Clean up the object URL
+  })
+  .catch(error => {
+      // Handle error
+      console.error('Error exporting PDF:', error);
   });
 }

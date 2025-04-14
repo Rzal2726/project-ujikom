@@ -15,4 +15,5 @@ Route::prefix('dashboard')->group(function () {
   Route::get('/pelanggan', [Controller::class, 'PelangganScreen'])->name('pelanggan-screen');
   Route::get('/transaksi', [Controller::class, 'TransaksiScreen'])->name('transaksi-screen');
   Route::get('/produk', [Controller::class, 'ProdukScreen'])->name('produk-screen');
+  Route::get('/kategori', [Controller::class, 'KategoriScreen'])->name('kategori-screen');
 });

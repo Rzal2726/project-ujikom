@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Transaksi;
 use App\Exports\TransaksiExcelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -101,4 +102,27 @@ class TransaksiController extends Controller
     {
         return Excel::download(new TransaksiExcelExport, 'data-transaksi.xlsx');
     }
+
+    public function exportPDF(Request $request)
+{
+    // Fetch data that you want to display in the PDF
+    $startDate = $request->startdate;
+    $endDate = $request->enddate;
+    
+    $transaksi = Transaksi::with(['user','pelanggan'])
+                        ->whereBetween('tanggal', [$startDate, $endDate])
+                        ->get(); // Example model data
+
+    // Prepare data to pass to the PDF view
+    $data = [
+        'period' => $startDate.' - '.$endDate,
+        'data' => $transaksi
+    ];
+
+    // Load a Blade view and pass the data to it
+    $pdf = Pdf::loadView('component.pdf', compact('data'));
+
+    // Return the PDF as a stream (open in browser)
+    return $pdf->stream('report.pdf');
+}
 }

@@ -3,13 +3,12 @@ if(!localStorage.getItem("token")){
   }
   
   const endpoints = {
-    getData: app_url+"/api/produk/get-data",
-    searchData: app_url+"/api/produk/search-data",
-    addData: app_url+"/api/produk/add-data",
-    editData: app_url+"/api/produk/edit-data/",
-    showData: app_url+"/api/produk/show-data/",
-    deleteData: app_url+"/api/produk/delete-data/",
-    getKategori: app_url+"/api/kategori/get-all",
+    getData: app_url+"/api/kategori/get-data",
+    searchData: app_url+"/api/kategori/search-data",
+    addData: app_url+"/api/kategori/add-data",
+    editData: app_url+"/api/kategori/edit-data/",
+    showData: app_url+"/api/kategori/show-data/",
+    deleteData: app_url+"/api/kategori/delete-data/",
   };
   
   let Data = [], itemsPerPage = 10, currentPage = 1, isFilter = false;
@@ -17,7 +16,7 @@ if(!localStorage.getItem("token")){
   initialize()
   async function initialize(){
     dataTable()
-    kategoriSelect()
+    // statusSelect()
   }
   
   //Get Data dari Api
@@ -30,12 +29,11 @@ if(!localStorage.getItem("token")){
     return response.json();
   }
   
-  async function kategoriSelect() {
-    const response = await fetchData(endpoints.getKategori);
-    const options = response.data.map(data => `<option value="${data.id}">${data.nama}</option>`).join("");
-    document.getElementById('add-kategori').innerHTML = "<option>Pilih Kategori</option>" + options;
-    document.getElementById('edit-kategori').innerHTML = "<option>Pilih Kategori</option>" + options;
-  }
+//   async function userSelect() {
+//     const response = await fetchData(endpoints.employees);
+//     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
+//     document.getElementById('name').innerHTML = "<option></option>" + options;
+//   }
 //   async function statusSelect() {
 //     const response = await fetchData(endpoints.status);
 //     const options = response.data.map(data => `<option value="${data.id}">${data.name}</option>`).join("");
@@ -137,10 +135,7 @@ if(!localStorage.getItem("token")){
     document.getElementById('table').innerHTML = currentItems.map((data, index) => `
         <tr>
         <td>${index+1+startIndex}</td>
-        <td>${data.nama_barang}</td>
-        <td>${data.stok}</td>
-        <td>Rp. ${ new Intl.NumberFormat().format(data.harga)}</td>
-        <td>${data.kategori.nama ?? '-'}</td>
+        <td>${data.nama}</td>
             <td class="d-flex justify-content-center">
             <div class="d-flex gap-2">
               <button 
@@ -165,7 +160,7 @@ if(!localStorage.getItem("token")){
     if (currentItems.length === 0) {
       document.getElementById('table').innerHTML = `
           <tr>
-              <td colspan="6" class="text-center">Tidak Ada Data</td>
+              <td colspan="5" class="text-center">Tidak Ada Data</td>
           </tr>
       `;
     }
@@ -175,36 +170,18 @@ if(!localStorage.getItem("token")){
     fetchData(endpoints.showData + id).then(response => {
         const data = response.data;
         document.getElementById('edit-id').value = data['id'];
-        document.getElementById('edit-nama').value = data['nama_barang'];
-        document.getElementById('edit-stok').value = data['stok'];
-        document.getElementById('edit-harga').value = data['harga'];
-        document.getElementById('edit-kategori').value = data['kategori']['id'];
+        document.getElementById('edit-nama').value = data['nama'];
         localStorage.setItem('data_id', id);
       });
     }
     
     function plus(){
       document.getElementById('add-nama').value = "";
-      document.getElementById('add-stok').value = ""
-      document.getElementById('add-harga').value = "";
-      document.getElementById('add-kategori').value = "";
   }
   //Fungsi CRUD
   async function update() {
     if(document.getElementById('edit-nama').value == ""){
-      toastr.error("Kolom nama barang tidak boleh kosong")
-      return false
-    }
-    if(document.getElementById('edit-stok').value == ""){
-      toastr.error("Kolom stok tidak boleh kosong")
-      return false
-    }
-    if(document.getElementById('edit-harga').value == ""){
-      toastr.error("Kolom harga tidak boleh kosong")
-      return false
-    }
-    if(document.getElementById('edit-kategori').value == ""){
-      toastr.error("Kolom kategori tidak boleh kosong")
+      toastr.error("Kolom nama tidak boleh kosong")
       return false
     }
     const id = localStorage.getItem('data_id');
@@ -214,10 +191,7 @@ if(!localStorage.getItem("token")){
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nama_barang: document.getElementById('edit-nama').value,
-        stok: document.getElementById('edit-stok').value,
-        harga: document.getElementById('edit-harga').value,
-        kategori: document.getElementById('edit-kategori').value,
+        name: document.getElementById('edit-nama').value,
     }) });
     toastr.success("Data successfully updated");
     dataTable();
@@ -241,22 +215,6 @@ if(!localStorage.getItem("token")){
   }
   
   async function add(){
-    if(document.getElementById('add-nama').value == ""){
-      toastr.error("Kolom nama barang tidak boleh kosong")
-      return false
-    }
-    if(document.getElementById('add-stok').value == ""){
-      toastr.error("Kolom stok tidak boleh kosong")
-      return false
-    }
-    if(document.getElementById('add-harga').value == ""){
-      toastr.error("Kolom harga tidak boleh kosong")
-      return false
-    }
-    if(document.getElementById('add-kategori').value == ""){
-      toastr.error("Kolom kategori tidak boleh kosong")
-      return false
-    }
     JsLoadingOverlay.show({
       "spinnerIcon": "ball-spin"
     });
@@ -266,10 +224,7 @@ if(!localStorage.getItem("token")){
               'Content-Type': 'application/json',
               'Authorization': 'Bearer '+localStorage.getItem('token') },
             body: JSON.stringify({
-              nama_barang: document.getElementById('add-nama').value,
-              stok: document.getElementById('add-stok').value,
-              harga: document.getElementById('add-harga').value,
-              kategori: document.getElementById('add-kategori').value,
+              name: document.getElementById('add-nama').value,
             })
           }).then((response) => response.json())
           .then((response) => {

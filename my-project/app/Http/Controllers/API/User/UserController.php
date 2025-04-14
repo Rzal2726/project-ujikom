@@ -116,7 +116,7 @@ class UserController extends Controller
     }
 
     public function getLogin(){
-        $data = LoginCounter::with('user')->paginate(10);
+        $data = LoginCounter::orderBy('tanggal','desc')->with('user')->paginate(10);
 
         if ($data->isEmpty()) {
             return response()->json([
