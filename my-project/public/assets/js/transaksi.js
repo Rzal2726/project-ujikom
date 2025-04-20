@@ -65,7 +65,11 @@ if(!localStorage.getItem("token")){
     JsLoadingOverlay.show({ "spinnerIcon": "ball-spin" });
     const response = await fetchData(endpoints.searchData+"?page="+currentPage, {
         method: 'POST',
-        body: JSON.stringify({ search: document.getElementById('search').value })
+        body: JSON.stringify({ 
+          search: document.getElementById('search').value,
+          startdate: document.getElementById('startdate-filter').value,
+          enddate: document.getElementById('enddate-filter').value,
+         })
     });
     Data = response.data;
     !isFilter && (currentPage = 1);
@@ -475,10 +479,6 @@ async function sendTransaction(){
   }
   if(document.getElementById('add-daftar-produk').value == ""){
     toastr.error("Kolom daftar produk tidak boleh kosong")
-    return false
-  }
-  if(document.getElementById('form-tanggal').value == ""){
-    toastr.error("Kolom tanggal tidak boleh kosong")
     return false
   }
   await saveTransaction()

@@ -30,6 +30,12 @@ class TransaksiController extends Controller
                 ->orWhereRaw("DATE_FORMAT(tanggal, '%d/%m/%Y') LIKE ?", ["%{$search}%"]);
             });
         }
+        if ($request->has('startdate') && $request->has('enddate')) {
+            if($request->startdate != null){
+                $data->whereBetween('tanggal', [$request->startdate, $request->enddate]);
+            }
+        }
+
         return response()->json([
             'message' => 'berhasil mendapatkan data',
             'data' => $data->with(['user', 'pelanggan'])->paginate(10)
@@ -37,10 +43,11 @@ class TransaksiController extends Controller
     }
 
     public function addData(Request $request){
+        $tanggal = $request->tanggal ?? now()->toDateString();
         $data = Transaksi::create([
             'harga' => $request->harga,
             'daftar_produk' => $request->daftar_produk,
-            'tanggal' => $request->tanggal,
+            'tanggal' => $tanggal,
             'id_pelanggan' => $request->id_pelanggan,
             'id_admin' => auth()->id(),
         ]);

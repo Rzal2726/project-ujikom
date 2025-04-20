@@ -54,7 +54,6 @@
                 <!-- Modal Footer -->
                 <div class="modal-footer border-0 px-4 pb-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="update()" data-bs-dismiss="modal">Save</button>
                 </div>
             </form>
 
@@ -160,6 +159,59 @@
                 <div class="modal-footer border-0 px-4 pb-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary rounded-pill px-4" onclick="exportPdf()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="modalFilter" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" 
+    aria-labelledby="modalTitleId" aria-hidden="true">
+    
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            
+            <!-- Modal Header -->
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title fw-bold" id="modalTitleId">Filter Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Form -->
+            <form>
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Tanggal Awal</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            name=""
+                            id="startdate-filter"
+                            aria-describedby="helpId"
+                            placeholder=""
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Tanggal Akhir</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            name=""
+                            id="enddate-filter"
+                            aria-describedby="helpId"
+                            placeholder=""
+                        />
+                    </div>
+                    
+                    
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" onclick="searchTable()" data-bs-dismiss="modal">Filter</button>
                 </div>
             </form>
 
@@ -362,8 +414,8 @@
                                     <input type="text" class="form-control" id="total-harga" placeholder="Auto Price" readonly>
                                 </div>
     
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Tanggal*</label>
+                                <div class="mb-3" id="tgl-input">
+                                    <label class="form-label fw-semibold">Tanggal</label>
                                     <input type="date" class="form-control" id="form-tanggal" required>
                                 </div>
     
@@ -399,6 +451,9 @@
                       </div>
                   
                       <!-- Export Button -->
+                      <button class="btn btn-primary rounded-pill text-nowrap" data-bs-toggle="modal" data-bs-target="#modalFilter">
+                        <i class="fa fa-list"></i> Filter
+                      </button>
                       <button class="btn btn-success rounded-pill text-nowrap" data-bs-toggle="modal" data-bs-target="#modalEkspor">
                         <i class="fa fa-file"></i> Ekspor
                       </button>

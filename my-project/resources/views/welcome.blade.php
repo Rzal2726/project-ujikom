@@ -202,6 +202,12 @@
                             userCard.classList.add('d-none');
                         }
                         @endif
+                        @if ($currentRoute === 'transaksi-screen')
+                        const userCard = document.getElementById('tgl-input');
+                        if (userCard) {
+                            userCard.classList.add('d-none');
+                        }
+                        @endif
                     }else{
                         document.getElementById('user-nav').classList.remove('d-none');
                     }
